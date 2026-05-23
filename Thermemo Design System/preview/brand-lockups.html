@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 24px 32px; min-height: 100%; box-sizing: border-box; display:grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: end; }
+  .lockup { display:flex; flex-direction:column; gap: 10px; }
+  .stage { background:#fff; border:1px solid #DCD8D1; height: 110px; display:flex; align-items:center; justify-content:center; padding: 10px; }
+  .stage img { max-height: 90px; width:auto; }
+  .word { font-family: 'Helvetica', sans-serif; font-weight:700; font-size:28px; letter-spacing:-0.02em; line-height:1; }
+  .tag { font-family: 'Kaushan Script', cursive; color: #553125; font-size: 11px; line-height:1; margin-top: 4px; }
+  .seal-big { font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 56px; color: #553125; line-height: 1; }
+  .label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; opacity: 0.6; }
+  .use { font-size: 10.5px; opacity: 0.65; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="lockup">
+    <div class="stage" style="flex-direction:column; gap:4px;">
+      <img src="../assets/logo-thermemo.png" alt="logo"/>
+    </div>
+    <div class="label">Primary Lockup</div>
+    <div class="use">Seal + wordmark + tagline. Default for covers and large surfaces.</div>
+  </div>
+  <div class="lockup">
+    <div class="stage"><div class="seal-big">記</div></div>
+    <div class="label">Icon / Seal Only</div>
+    <div class="use">Favicons, social avatars, watermarks under 80px.</div>
+  </div>
+  <div class="lockup">
+    <div class="stage" style="flex-direction:column; gap:4px;"><div class="word">thermemo</div><div class="tag">proof that this moment happened.</div></div>
+    <div class="label">Wordmark</div>
+    <div class="use">Inline use, headers, signatures.</div>
+  </div>
+  <div class="lockup">
+    <div class="stage"><div style="font-family:'Thermemo JP',serif; font-weight:700; font-size:34px; color:#553125; line-height:1;">記片</div></div>
+    <div class="label">Seal Pair</div>
+    <div class="use">Stamps on physical goods, receipt corner mark.</div>
+  </div>
+</div>
+</body>
+</html>

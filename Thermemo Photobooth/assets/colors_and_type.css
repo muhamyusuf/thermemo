@@ -1,0 +1,139 @@
+/* =========================================================
+   THERMEMO — Foundation tokens
+   Color + Type CSS variables used across the design system.
+   ========================================================= */
+
+/* Brand fonts — provided by user, served locally from /fonts.
+   - Helvetica.ttf            → "Helvetica"           (primary / functional)
+   - KaushanScript-Regular.ttf→ "Kaushan Script"      (accent / handwritten)
+   - _____Pr6N_M.otf          → "Thermemo JP"         (japanese / stamp — alias for the uploaded JP face)
+*/
+@font-face {
+  font-family: "Helvetica";
+  src: url("fonts/Helvetica.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kaushan Script";
+  src: url("fonts/KaushanScript-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Thermemo JP";
+  src: url("fonts/_____Pr6N_M.otf") format("opentype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- COLOR ---------- */
+  --rice-paper:  #F7F4EE;   /* base background — warm off-white     */
+  --ink-black:   #111111;   /* primary text + dark slides           */
+  --cedar-brown: #553125;   /* accent / seal / CTA                  */
+  --stone-gray:  #DCD8D1;   /* dividers, secondary borders          */
+
+  /* tonal extensions (use sparingly — keep palette tight) */
+  --rice-paper-deep: #EFEADF;
+  --ink-soft:        #2A2622;
+  --cedar-soft:      #7A4A38;
+  --stone-mid:       #B8B2A9;
+
+  /* semantic */
+  --bg:           var(--rice-paper);
+  --bg-dark:      var(--ink-black);
+  --fg:           var(--ink-black);
+  --fg-muted:     #4A423C;
+  --fg-on-dark:   var(--rice-paper);
+  --accent:       var(--cedar-brown);
+  --divider:      var(--stone-gray);
+  --divider-ink:  rgba(17,17,17,0.5);
+
+  /* signaling */
+  --ok:    #3F6B4A;
+  --bad:   #8A2A1C;
+
+  /* usage ratios — for swatch bar in slide 09 */
+  --ratio-rice:   55%;
+  --ratio-ink:    30%;
+  --ratio-cedar:  10%;
+  --ratio-stone:   5%;
+
+  /* ---------- TYPE ---------- */
+  --font-sans:    "Helvetica", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Helvetica", "Helvetica Neue", Arial, sans-serif;
+  --font-accent:  "Kaushan Script", "Helvetica Neue", cursive;
+  --font-jp:      "Thermemo JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-mono:    ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* type scale (slide-deck values; cap at 1920×1080) */
+  --t-display:    96px;    /* hero / cover                 */
+  --t-h1:         64px;    /* slide titles, display Kaushan */
+  --t-h2:         32px;    /* section headers              */
+  --t-h3:         22px;    /* card headers                 */
+  --t-body:       16px;    /* default body                 */
+  --t-small:      13px;    /* labels                       */
+  --t-micro:       9px;    /* stamp text / microcopy       */
+
+  --lh-tight:  1.05;
+  --lh-snug:   1.2;
+  --lh-body:   1.55;
+
+  --tracking-stamp:  0.22em;
+  --tracking-label:  0.14em;
+  --tracking-flat:   0;
+  --tracking-tight: -0.01em;
+
+  /* ---------- LAYOUT ---------- */
+  --margin-slide: 10%;           /* min 10% on all sides   */
+  --grid-gutter:  32px;
+  --rule-hairline: 1px;
+  --rule-thin:     0.5px;
+
+  /* ---------- RADII ---------- */
+  --r-none:  0;
+  --r-xs:    2px;     /* receipt corners are practically square */
+  --r-sm:    4px;
+  --r-md:    8px;     /* default card / button                  */
+  --r-seal:  999px;   /* seal stamps / pills                    */
+
+  /* ---------- SHADOW ---------- */
+  --shadow-paper:  0 1px 0 rgba(17,17,17,0.04), 0 8px 24px -16px rgba(17,17,17,0.18);
+  --shadow-receipt:0 12px 30px -22px rgba(17,17,17,0.5);
+  --shadow-press:  inset 0 0 0 1px rgba(17,17,17,0.08);
+}
+
+/* =========================================================
+   Semantic resets — apply to <body> in artifacts
+   ========================================================= */
+.thermemo {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-feature-settings: "kern", "liga";
+}
+
+/* Semantic classes — use directly in markup */
+.t-display { font-family: var(--font-display); font-weight: 700; font-size: var(--t-display); line-height: var(--lh-tight); letter-spacing: var(--tracking-tight); }
+.t-h1      { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1);      line-height: var(--lh-tight); letter-spacing: var(--tracking-tight); }
+.t-h2      { font-family: var(--font-sans);    font-weight: 700; font-size: var(--t-h2);      line-height: var(--lh-snug); }
+.t-h3      { font-family: var(--font-sans);    font-weight: 700; font-size: var(--t-h3);      line-height: var(--lh-snug); }
+.t-body    { font-family: var(--font-sans);    font-weight: 400; font-size: var(--t-body);    line-height: var(--lh-body); }
+.t-small   { font-family: var(--font-sans);    font-weight: 400; font-size: var(--t-small);   line-height: 1.4;             }
+.t-label   { font-family: var(--font-sans);    font-weight: 500; font-size: var(--t-small);   text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.t-stamp   { font-family: var(--font-sans);    font-weight: 700; font-size: var(--t-micro);   text-transform: uppercase; letter-spacing: var(--tracking-stamp); }
+.t-accent  { font-family: var(--font-accent);  font-weight: 400; font-style: italic;          line-height: 1.1; }
+.t-jp      { font-family: var(--font-jp);      font-weight: 500;                              line-height: 1; }
+
+/* lowercase brand wordmark utility */
+.brand-wordmark { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; text-transform: lowercase; }
+
+/* dotted/dashed dividers (receipt feel) */
+.divider-receipt { border: 0; border-top: 1px dashed var(--ink-black); opacity: 0.55; }
+.divider-hair    { border: 0; border-top: var(--rule-hairline) solid var(--stone-gray); }

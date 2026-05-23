@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 28px 32px; min-height: 100%; box-sizing: border-box; display:flex; flex-direction:column; gap: 18px; }
+  .row { display:flex; gap: 14px; }
+  .pair { flex:1; display:flex; align-items:center; gap: 14px; padding: 18px; border-radius: 4px; }
+  .pair .ratio { font-family: var(--font-mono); font-size: 11px; opacity: 0.7; }
+  .pair .badge { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+  .pass { background: #3F6B4A; color: #fff; }
+  .fail { background: #8A2A1C; color: #fff; }
+  .ok-large { background: #BFA94D; color: #111; }
+  .sample { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+  .small { font-size: 12px; opacity: 0.7; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="row">
+    <div class="pair" style="background:#F7F4EE; border:1px solid rgba(17,17,17,0.08);">
+      <div style="flex:1;"><div class="sample" style="color:#111;">Ink on paper</div><div class="small">Body & headings · default</div></div>
+      <div class="ratio">16.3:1</div><div class="badge pass">AAA</div>
+    </div>
+    <div class="pair" style="background:#F7F4EE; border:1px solid rgba(17,17,17,0.08);">
+      <div style="flex:1;"><div class="sample" style="color:#553125;">Cedar on paper</div><div class="small">Accents, large headlines</div></div>
+      <div class="ratio">8.2:1</div><div class="badge pass">AAA</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="pair" style="background:#111111;">
+      <div style="flex:1;"><div class="sample" style="color:#F7F4EE;">Paper on ink</div><div class="small" style="color:#DCD8D1;">Dark slides (cover, closing)</div></div>
+      <div class="ratio" style="color:#DCD8D1;">15.4:1</div><div class="badge pass">AAA</div>
+    </div>
+    <div class="pair" style="background:#F7F4EE; border:1px solid rgba(17,17,17,0.08);">
+      <div style="flex:1;"><div class="sample" style="color:#DCD8D1;">Stone on paper</div><div class="small">Not for text — borders only</div></div>
+      <div class="ratio">1.3:1</div><div class="badge fail">FAIL</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

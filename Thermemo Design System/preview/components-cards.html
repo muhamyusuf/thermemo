@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .wrap { padding: 24px 32px; min-height: 100%; box-sizing: border-box; display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card {
+    background: #fff; border: 1px solid #DCD8D1; border-radius: 4px;
+    padding: 20px; display:flex; flex-direction:column; gap: 10px;
+  }
+  .micro { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.55; font-weight: 700; }
+  .title { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+  .body { font-size: 12px; line-height: 1.5; opacity: 0.8; }
+  .row { display:flex; justify-content: space-between; align-items: baseline; border-top: 1px dashed rgba(17,17,17,0.3); padding-top: 10px; margin-top: auto;}
+  .num { font-family: ui-monospace, Menlo, monospace; font-size: 11px; opacity: 0.6; }
+  .accent-bar { height: 2px; background: #553125; width: 28px; }
+
+  .receipt {
+    background: #fff; border: 1px solid #DCD8D1;
+    padding: 18px 16px;
+    font-family: ui-monospace, Menlo, monospace; font-size: 10.5px;
+    display:flex; flex-direction:column; gap: 4px;
+    position: relative;
+  }
+  .receipt::before, .receipt::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 8px;
+    background: radial-gradient(circle at 5px 0, #F7F4EE 3px, transparent 3.5px) 0 0/14px 8px repeat-x;
+  }
+  .receipt::before { top: -8px; transform: rotate(180deg); }
+  .receipt::after  { bottom: -8px; }
+  .receipt h5 { margin: 0 0 6px; font-family: 'Helvetica', sans-serif; font-size: 14px; letter-spacing: 0.04em; text-align: center; }
+  .receipt .line { display:flex; justify-content: space-between; }
+  .receipt .dashed { border-top: 1px dashed rgba(17,17,17,0.4); margin: 6px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <span class="micro">Memento No. 0042</span>
+    <div class="accent-bar"></div>
+    <div class="title">a quiet birthday</div>
+    <div class="body">struk kecil, kenangan besar. 22 May, jakarta selatan, hujan tipis.</div>
+    <div class="row"><span class="num">22.05.26</span><span class="num">19:48</span></div>
+  </div>
+  <div class="receipt">
+    <h5>thermemo</h5>
+    <div class="line"><span>NO.</span><span>0042</span></div>
+    <div class="line"><span>DATE</span><span>22.05.26</span></div>
+    <div class="line"><span>TIME</span><span>19:48</span></div>
+    <div class="dashed"></div>
+    <div class="line"><span>strip × 1</span><span>—</span></div>
+    <div class="line"><span>seal × 1</span><span>—</span></div>
+    <div class="dashed"></div>
+    <div style="text-align:center; font-size: 9px; letter-spacing: 0.22em; margin-top: 4px;">PROOF · KEPT · 記</div>
+  </div>
+</div>
+</body>
+</html>

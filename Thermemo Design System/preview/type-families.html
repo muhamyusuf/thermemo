@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 28px 32px; min-height: 100%; box-sizing: border-box; display:flex; flex-direction:column; gap: 18px; }
+  .specimen { display:flex; align-items: baseline; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--stone-gray); padding-bottom: 14px; }
+  .specimen:last-child { border-bottom: none; padding-bottom: 0; }
+  .left { display:flex; flex-direction: column; gap: 4px; }
+  .label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.55; font-weight: 700; }
+  .meta { font-family: var(--font-mono); font-size: 11px; opacity: 0.5; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="specimen">
+    <div class="left">
+      <div class="label">Display / Functional</div>
+      <div style="font-family: 'Helvetica', Arial, sans-serif; font-weight:700; font-size: 56px; letter-spacing: -0.02em; line-height: 1;">thermemo</div>
+    </div>
+    <div class="meta">Helvetica Neue Bold</div>
+  </div>
+  <div class="specimen">
+    <div class="left">
+      <div class="label">Accent / Handwritten</div>
+      <div style="font-family: 'Kaushan Script', cursive; font-size: 52px; line-height: 1; color: #553125;">proof that this moment happened.</div>
+    </div>
+    <div class="meta">Kaushan Script</div>
+  </div>
+  <div class="specimen">
+    <div class="left">
+      <div class="label">Japanese / Stamp</div>
+      <div style="font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 56px; line-height: 1; color: #553125;">記ノ片</div>
+    </div>
+    <div class="meta">Noto Serif JP</div>
+  </div>
+</div>
+</body>
+</html>

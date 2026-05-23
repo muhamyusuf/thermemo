@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 32px; min-height: 100%; box-sizing: border-box; display:flex; flex-direction:column; gap: 20px; }
+  .bar { display:flex; width: 100%; height: 64px; border-radius: 4px; overflow: hidden; border: 1px solid rgba(17,17,17,0.08); }
+  .seg { display:flex; align-items: flex-end; padding: 8px 12px; color: #fff; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+  .legend { display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .legend > div { font-size: 12px; line-height: 1.4; }
+  .legend b { display:block; font-size: 13px; }
+  .legend .pct { font-family: var(--font-mono); opacity: 0.55; font-size: 11px; }
+  .note { font-size: 12px; opacity: 0.6; border-top: 1px dashed rgba(17,17,17,0.4); padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bar">
+    <div class="seg" style="background:#F7F4EE; color:#111; width:55%;">Rice Paper · 55%</div>
+    <div class="seg" style="background:#111111; width:30%;">Ink Black · 30%</div>
+    <div class="seg" style="background:#553125; width:10%;">Cedar · 10%</div>
+    <div class="seg" style="background:#DCD8D1; color:#111; width:5%; padding:8px 6px;">5%</div>
+  </div>
+  <div class="legend">
+    <div><b>Rice Paper</b><span class="pct">55%</span>Page + slide backgrounds. Carries the layout.</div>
+    <div><b>Ink Black</b><span class="pct">30%</span>Body text, dark covers, dividers at 50% opacity.</div>
+    <div><b>Cedar Brown</b><span class="pct">10%</span>Seal stamps, accent strokes, hover lines.</div>
+    <div><b>Stone Gray</b><span class="pct">5%</span>Hairline rules, ghost borders only.</div>
+  </div>
+  <div class="note">Accessibility: body text is always Ink Black on Rice Paper (contrast 16.3:1). Cedar Brown on Rice Paper clears AA for large text only — never use it for body copy.</div>
+</div>
+</body>
+</html>

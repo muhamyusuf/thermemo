@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 28px 32px; min-height: 100%; box-sizing: border-box; }
+  .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .demo { display:flex; flex-direction:column; gap: 10px; align-items: flex-start; }
+  .box { width: 100%; aspect-ratio: 1.6 / 1; background: #EFEADF; border: 1px solid #DCD8D1; }
+  .label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; opacity: 0.6; }
+  .px { font-family: var(--font-mono); font-size: 11px; opacity: 0.5; }
+  .meta { font-size: 11px; opacity: 0.7; line-height: 1.35; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="grid">
+    <div class="demo">
+      <div class="box" style="border-radius: 0;"></div>
+      <div class="label">none · 0</div>
+      <div class="meta">Receipts, dividers, "tear here" cuts.</div>
+    </div>
+    <div class="demo">
+      <div class="box" style="border-radius: 2px;"></div>
+      <div class="label">xs · 2 px</div>
+      <div class="meta">Cards on dark slides. Default for tight UI.</div>
+    </div>
+    <div class="demo">
+      <div class="box" style="border-radius: 4px;"></div>
+      <div class="label">sm · 4 px</div>
+      <div class="meta">Default card & button radius.</div>
+    </div>
+    <div class="demo">
+      <div class="box" style="border-radius: 999px;"></div>
+      <div class="label">seal · 999</div>
+      <div class="meta">Round seals + pills only. Never on rectangles.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

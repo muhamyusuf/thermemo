@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 28px 32px; min-height: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; }
+  .row { display:flex; gap: 12px; flex-wrap: wrap; }
+  .input {
+    background: transparent; border: 0; border-bottom: 1px solid #111;
+    padding: 8px 2px; font-family: var(--font-sans); font-size: 14px; color: #111;
+    outline: none; min-width: 220px;
+  }
+  .input::placeholder { opacity: 0.4; }
+  .input:focus { border-bottom-color: #553125; }
+  .field { display:flex; flex-direction:column; gap: 6px; }
+  .field label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.55; font-weight: 700; }
+
+  .badge { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; padding: 4px 10px; border-radius: 999px; display:inline-flex; align-items:center; gap:6px; }
+  .b-ink   { background: #111; color: #F7F4EE; }
+  .b-cedar { background: transparent; color: #553125; border: 1px solid #553125; }
+  .b-paper { background: #F7F4EE; color: #111; border: 1px solid #111; }
+  .b-stone { background: #DCD8D1; color: #2A2622; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.55; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div>
+    <div class="label">Form inputs</div>
+    <div class="row" style="margin-top: 12px;">
+      <div class="field">
+        <label>your name</label>
+        <input class="input" placeholder="nama lengkap"/>
+      </div>
+      <div class="field">
+        <label>booth date</label>
+        <input class="input" placeholder="22 may 2026" value="22 may 2026"/>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="label">Badges</div>
+    <div class="row" style="margin-top: 12px;">
+      <span class="badge b-ink">Booked</span>
+      <span class="badge b-cedar"><span class="dot"></span>Limited</span>
+      <span class="badge b-paper">Available</span>
+      <span class="badge b-stone">Sold out</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

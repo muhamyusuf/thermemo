@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 28px 32px; min-height: 100%; box-sizing: border-box; }
+  .grid { display:grid; grid-template-columns: repeat(6, 1fr); gap: 14px; align-items: end; }
+  .step { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .box { background: #553125; opacity: 0.85; }
+  .name { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.55; font-weight: 700; }
+  .px { font-family: var(--font-mono); font-size: 10.5px; opacity: 0.5; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="grid">
+    <div class="step"><div class="box" style="width:4px; height:4px;"></div><div class="name">2xs</div><div class="px">4 px</div></div>
+    <div class="step"><div class="box" style="width:8px; height:8px;"></div><div class="name">xs</div><div class="px">8 px</div></div>
+    <div class="step"><div class="box" style="width:16px; height:16px;"></div><div class="name">sm</div><div class="px">16 px</div></div>
+    <div class="step"><div class="box" style="width:24px; height:24px;"></div><div class="name">md</div><div class="px">24 px</div></div>
+    <div class="step"><div class="box" style="width:32px; height:32px;"></div><div class="name">lg</div><div class="px">32 px</div></div>
+    <div class="step"><div class="box" style="width:48px; height:48px;"></div><div class="name">xl</div><div class="px">48 px</div></div>
+  </div>
+  <div style="font-size: 11px; opacity: 0.6; margin-top: 18px; border-top: 1px dashed rgba(17,17,17,0.3); padding-top: 12px;">8-px grid for components · 32-px gutter for slide grids · slides keep ≥ 10% margin on every side.</div>
+</div>
+</body>
+</html>

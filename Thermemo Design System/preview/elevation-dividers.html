@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body { margin:0; padding:0; background:var(--rice-paper); color:var(--ink-black); font-family:var(--font-sans); }
+  .card { padding: 28px 32px; min-height: 100%; box-sizing: border-box; display:flex; flex-direction:column; gap: 24px; }
+  .row { display:flex; gap: 32px; align-items: center; }
+  .specimen { display: flex; align-items: center; gap: 14px; }
+  .specimen .meta { font-size: 11px; opacity: 0.6; line-height: 1.4; }
+  .specimen .name { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; opacity: 0.6; display:block; margin-bottom: 4px;}
+  .specimen .swatch { width: 120px; background: #fff; height: 60px; border: 1px solid rgba(17,17,17,0.05); }
+  hr { width: 100%; border: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="row">
+    <div class="specimen">
+      <div class="swatch" style="box-shadow: none;"></div>
+      <div><span class="name">None</span><div class="meta">Default for UI. Brand is flat.</div></div>
+    </div>
+    <div class="specimen">
+      <div class="swatch" style="box-shadow: 0 1px 0 rgba(17,17,17,0.04), 0 8px 24px -16px rgba(17,17,17,0.18);"></div>
+      <div><span class="name">Paper</span><div class="meta">Floating cards on Rice Paper bg.</div></div>
+    </div>
+    <div class="specimen">
+      <div class="swatch" style="box-shadow: 0 12px 30px -22px rgba(17,17,17,0.5);"></div>
+      <div><span class="name">Receipt</span><div class="meta">Physical receipt mockup only.</div></div>
+    </div>
+  </div>
+  <div>
+    <span class="name" style="font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; opacity: 0.6;">Dividers</span>
+    <div style="display:flex; flex-direction:column; gap: 12px; margin-top: 10px;">
+      <div style="display:flex; align-items:center; gap: 14px;"><hr style="border-top: 1px solid #DCD8D1; flex:1;"><span style="font-size:11px; opacity:0.6; min-width: 180px;">Hairline · 1 px Stone Gray</span></div>
+      <div style="display:flex; align-items:center; gap: 14px;"><hr style="border-top: 1px dashed rgba(17,17,17,0.5); flex:1;"><span style="font-size:11px; opacity:0.6; min-width: 180px;">Receipt · 0.5pt Ink @ 50%</span></div>
+      <div style="display:flex; align-items:center; gap: 14px;"><hr style="border-top: 1px solid #553125; flex:1;"><span style="font-size:11px; opacity:0.6; min-width: 180px;">Cedar · accent only, sparingly</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

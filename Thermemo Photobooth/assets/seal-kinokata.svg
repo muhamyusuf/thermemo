@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" scale="2"></feDisplacementMap>
+    </filter>
+  </defs>
+  <circle cx="100" cy="100" r="88" stroke="#553125" stroke-width="3" fill="none" filter="url(#rough)"></circle>
+  <circle cx="100" cy="100" r="80" stroke="#553125" stroke-width="1.5" fill="none" filter="url(#rough)" opacity="0.7"></circle>
+  <text x="100" y="116" text-anchor="middle" font-family="&#39;Noto Serif JP&#39;, serif" font-weight="700" font-size="58" fill="#553125" filter="url(#rough)">記</text>
+</svg>

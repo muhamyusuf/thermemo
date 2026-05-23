@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>thermemo · proof that this moment happened.</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body class="thermemo">
+
+  <!-- ============== NAV ============== -->
+  <nav class="nav" id="nav">
+    <a href="#/" class="nav__brand">
+      <span class="nav__wordmark">thermemo</span>
+      <span class="nav__kanji">記ノ片</span>
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="#/" class="nav__link" data-route="/">Home</a>
+      <a href="#/gallery" class="nav__link" data-route="/gallery">Gallery</a>
+      <a href="#/photobooth" class="nav__link" data-route="/photobooth">Photobooth</a>
+      <a href="#/pricing" class="nav__link" data-route="/pricing">Pricing</a>
+      <a href="#/about" class="nav__link" data-route="/about">About</a>
+      <a href="#/blog" class="nav__link" data-route="/blog">Blog</a>
+      <a href="#/faq" class="nav__link" data-route="/faq">FAQ</a>
+      <a href="#/contact" class="nav__link" data-route="/contact">Contact</a>
+    </div>
+    <button class="nav__burger" id="navBurger" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav__overlay" id="navOverlay">
+    <button class="nav__overlay-close" id="navClose">×</button>
+    <a href="#/">home</a>
+    <a href="#/gallery">gallery</a>
+    <a href="#/photobooth">photobooth</a>
+    <a href="#/pricing">pricing</a>
+    <a href="#/about">about</a>
+    <a href="#/blog">blog</a>
+    <a href="#/faq">faq</a>
+    <a href="#/contact">contact</a>
+  </div>
+
+  <main id="app">
+
+    <!-- ============== HOME ============== -->
+    <section class="page" data-page="/" data-screen-label="01 Home">
+      <!-- 1.1 Hero -->
+      <header class="hero">
+        <div class="hero__kanji-mark">記ノ片 · KI NO KATA</div>
+        <h1 class="hero__title">thermemo</h1>
+        <p class="hero__script">Proof that this moment happened.</p>
+        <p class="hero__body">Receipt photobooth untuk momen kecil yang layak disimpan. struk tipis, kenangan padat — bukti bahwa malam ini benar-benar terjadi.</p>
+        <div class="hero__ctas">
+          <a href="#/booking" class="btn btn--primary">Book a session →</a>
+          <a href="#/gallery" class="btn btn--outline-light">See the gallery</a>
+        </div>
+        <div class="hero__meta">
+          <span>EST · 2025</span>
+          <span>BANDUNG · ID</span>
+          <span>NO. 0042</span>
+        </div>
+      </header>
+
+      <div class="tear"><svg viewBox="0 0 1200 32" preserveAspectRatio="none"><path d="M0,18 Q15,6 30,20 T60,16 T90,22 T120,14 T150,20 T180,16 T210,24 T240,14 T270,20 T300,18 T330,22 T360,14 T390,20 T420,16 T450,24 T480,14 T510,20 T540,18 T570,22 T600,14 T630,20 T660,16 T690,24 T720,14 T750,20 T780,18 T810,22 T840,14 T870,20 T900,16 T930,24 T960,14 T990,20 T1020,18 T1050,22 T1080,14 T1110,20 T1140,16 T1170,24 T1200,18 L1200,32 L0,32 Z" fill="#F7F4EE"/></svg></div>
+
+      <!-- 1.2 Essence -->
+      <section class="section">
+        <div class="container two-col reveal">
+          <div class="two-col__left">
+            <div class="eyebrow mb-24">what is thermemo</div>
+            <h2 class="h1">Bukan sekadar foto.<br/>Sebuah struk kecil.</h2>
+            <p class="body" style="margin-top:24px;">thermemo mencetak kenangan dalam bentuk struk thermal — bukan untuk dibingkai, tapi untuk diselipkan di dompet, ditempel di cermin, atau ditemukan lagi setahun nanti di buku catatan. setiap struk membawa tanggal, nomor sesi, dan sebuah momen yang sudah selesai terjadi.</p>
+            <p class="script cedar mb-16" style="margin-top:24px;">a small receipt for a moment worth keeping.</p>
+          </div>
+          <div class="two-col__right">
+            <div class="receipt-hero">
+              <div class="receipt-hero__head">
+                <span>thermemo</span>
+                <span>16.05.26</span>
+              </div>
+              <div class="receipt-hero__photos">
+                <div class="receipt-hero__photo"></div>
+                <div class="receipt-hero__photo"></div>
+              </div>
+              <p class="receipt-hero__caption">satu malam yang tidak boleh hilang.</p>
+              <div class="receipt-hero__meta">
+                <span>NO. 0042</span>
+                <span>SESI · 2114</span>
+              </div>
+              <div class="receipt-hero__seal">記ノ片</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1.3 How it works -->
+      <section class="section" style="padding-top:0;">
+        <div class="container reveal">
+          <div class="center">
+            <div class="eyebrow mb-16">the process</div>
+            <h2 class="h2">Tiga langkah, satu struk.</h2>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <div class="step__num">01</div>
+              <div class="step__title">Strike a pose</div>
+              <p class="step__desc">masuk booth. tarik nafas. ambil shot — sendirian, atau ramai-ramai. tidak ada filter, tidak ada retake yang ribet.</p>
+            </div>
+            <div class="step">
+              <div class="step__num">02</div>
+              <div class="step__title">Printed in seconds</div>
+              <p class="step__desc">thermal printer mencetak foto kamu dalam hitungan detik. kertas struk asli, tinta thermal, suara cetakan yang familiar.</p>
+            </div>
+            <div class="step">
+              <div class="step__num">03</div>
+              <div class="step__title">Keep the proof</div>
+              <p class="step__desc">struk dibawa pulang. kenangan jadi benda. setahun lagi kamu temukan di dompet, dan momen itu kembali utuh.</p>
+            </div>
+          </div>
+          <div class="center mt-48">
+            <p class="script cedar" style="font-size:24px;">a small piece of a night you almost forgot.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="tear tear--light"><svg viewBox="0 0 1200 32" preserveAspectRatio="none"><path d="M0,14 Q15,26 30,12 T60,16 T90,10 T120,18 T150,12 T180,16 T210,8 T240,18 T270,12 T300,14 T330,10 T360,18 T390,12 T420,16 T450,8 T480,18 T510,12 T540,14 T570,10 T600,18 T630,12 T660,16 T690,8 T720,18 T750,12 T780,14 T810,10 T840,18 T870,12 T900,16 T930,8 T960,18 T990,12 T1020,14 T1050,10 T1080,18 T1110,12 T1140,16 T1170,8 T1200,14 L1200,0 L0,0 Z" fill="#111111"/></svg></div>
+
+      <!-- 1.4 Sample receipts -->
+      <section class="section section--dark">
+        <div class="container reveal">
+          <div class="eyebrow mb-16">sample receipts</div>
+          <h2 class="h2" style="color:#fff;">Every receipt is a memory object.</h2>
+          <div class="sample-scroll mt-32" id="sampleScroll">
+            <!-- populated by JS -->
+          </div>
+          <a href="#/gallery" class="link-arrow">View full gallery →</a>
+        </div>
+      </section>
+
+      <div class="tear"><svg viewBox="0 0 1200 32" preserveAspectRatio="none"><path d="M0,18 Q15,6 30,20 T60,16 T90,22 T120,14 T150,20 T180,16 T210,24 T240,14 T270,20 T300,18 T330,22 T360,14 T390,20 T420,16 T450,24 T480,14 T510,20 T540,18 T570,22 T600,14 T630,20 T660,16 T690,24 T720,14 T750,20 T780,18 T810,22 T840,14 T870,20 T900,16 T930,24 T960,14 T990,20 T1020,18 T1050,22 T1080,14 T1110,20 T1140,16 T1170,24 T1200,18 L1200,32 L0,32 Z" fill="#F7F4EE"/></svg></div>
+
+      <!-- 1.5 Features grid -->
+      <section class="section">
+        <div class="container reveal">
+          <div class="center">
+            <div class="eyebrow mb-16">what's inside</div>
+            <h2 class="h2">Built for moments, not megabytes.</h2>
+          </div>
+          <div class="features">
+            <div class="feature"><span class="feature__glyph">記</span><div class="feature__label">Instant thermal print</div><p class="feature__desc">cetakan langsung jadi. tidak menunggu, tidak ada antrian aplikasi.</p></div>
+            <div class="feature"><span class="feature__glyph">片</span><div class="feature__label">Collectible receipt design</div><p class="feature__desc">setiap struk punya nomor sesi unik. layak dikumpulkan, bukan dibuang.</p></div>
+            <div class="feature"><span class="feature__glyph">·</span><div class="feature__label">Monochrome aesthetic</div><p class="feature__desc">hanya hitam-putih. tidak ada filter alay, tidak ada tone trendy.</p></div>
+            <div class="feature"><span class="feature__glyph">○</span><div class="feature__label">Personal & intimate</div><p class="feature__desc">booth kecil, ruang sempit. dibuat untuk satu-dua orang dekat.</p></div>
+            <div class="feature"><span class="feature__glyph">□</span><div class="feature__label">Compact portable booth</div><p class="feature__desc">muat di pojok cafe, sudut event, atau di pop-up market.</p></div>
+            <div class="feature"><span class="feature__glyph">▽</span><div class="feature__label">Memory as physical object</div><p class="feature__desc">file foto bisa hilang. struk di dompet tidak akan ke-format.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="tear tear--light"><svg viewBox="0 0 1200 32" preserveAspectRatio="none"><path d="M0,14 Q15,26 30,12 T60,16 T90,10 T120,18 T150,12 T180,16 T210,8 T240,18 T270,12 T300,14 T330,10 T360,18 T390,12 T420,16 T450,8 T480,18 T510,12 T540,14 T570,10 T600,18 T630,12 T660,16 T690,8 T720,18 T750,12 T780,14 T810,10 T840,18 T870,12 T900,16 T930,8 T960,18 T990,12 T1020,14 T1050,10 T1080,18 T1110,12 T1140,16 T1170,8 T1200,14 L1200,0 L0,0 Z" fill="#111111"/></svg></div>
+
+      <!-- 1.6 Testimonial -->
+      <section class="section section--dark">
+        <div class="container reveal">
+          <div class="eyebrow mb-16">memories</div>
+          <h2 class="script cedar" style="font-size:clamp(36px,5vw,52px); line-height:1.05;">mementos fade.<br/>we don't.</h2>
+          <div class="testimonial-row" id="testimonialRow"><!-- populated --></div>
+        </div>
+      </section>
+
+      <div class="tear"><svg viewBox="0 0 1200 32" preserveAspectRatio="none"><path d="M0,18 Q15,6 30,20 T60,16 T90,22 T120,14 T150,20 T180,16 T210,24 T240,14 T270,20 T300,18 T330,22 T360,14 T390,20 T420,16 T450,24 T480,14 T510,20 T540,18 T570,22 T600,14 T630,20 T660,16 T690,24 T720,14 T750,20 T780,18 T810,22 T840,14 T870,20 T900,16 T930,24 T960,14 T990,20 T1020,18 T1050,22 T1080,14 T1110,20 T1140,16 T1170,24 T1200,18 L1200,32 L0,32 Z" fill="#F7F4EE"/></svg></div>
+
+      <!-- 1.7 CTA -->
+      <section class="section">
+        <div class="container reveal">
+          <div class="cta-banner">
+            <div class="seal">記片</div>
+            <h2 class="h1">Ready to print your memory?</h2>
+            <p class="body">Book your session today — walk in or reserve online. setiap struk butuh sekitar 90 detik.</p>
+            <div class="cta-banner__buttons">
+              <a href="#/booking" class="btn btn--primary">Book now →</a>
+              <a href="https://wa.me/6281234567890?text=Halo%20thermemo%2C%20saya%20ingin%20book%20sesi%20foto" target="_blank" class="btn btn--outline">WhatsApp us</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============== GALLERY ============== -->
+    <section class="page" data-page="/gallery" data-screen-label="02 Gallery">
+      <div class="gallery-hero reveal">
+        <div class="eyebrow mb-16">archive · 記ノ片</div>
+        <h1 class="h1">Fragments, collected.</h1>
+        <p class="script cedar" style="font-size:22px;">small moments. on paper. in order.</p>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-pill is-active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="portrait">Portrait</button>
+        <button class="filter-pill" data-filter="group">Group</button>
+        <button class="filter-pill" data-filter="event">Event</button>
+        <button class="filter-pill" data-filter="solo">Solo</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"><!-- populated --></div>
+    </section>
+
+    <!-- ============== PHOTOBOOTH ============== -->
+    <section class="page" data-page="/photobooth" data-screen-label="03 Photobooth">
+      <div class="booth">
+        <div class="booth__steps" id="boothSteps">
+          <div class="booth__step is-active" data-step="1"><span class="booth__step-dot">1</span><span class="booth__step-label">Layout</span></div>
+          <span class="booth__step-line"></span>
+          <div class="booth__step" data-step="2"><span class="booth__step-dot">2</span><span class="booth__step-label">Frame</span></div>
+          <span class="booth__step-line"></span>
+          <div class="booth__step" data-step="3"><span class="booth__step-dot">3</span><span class="booth__step-label">Capture</span></div>
+          <span class="booth__step-line"></span>
+          <div class="booth__step" data-step="4"><span class="booth__step-dot">4</span><span class="booth__step-label">Preview</span></div>
+          <span class="booth__step-line"></span>
+          <div class="booth__step" data-step="5"><span class="booth__step-dot">5</span><span class="booth__step-label">Download</span></div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="booth__panel" id="boothPanel1">
+          <h2 class="h1 booth__title">Choose your strip layout</h2>
+          <p class="booth__sub">how many frames do you want on your receipt?</p>
+          <div class="layout-grid" id="layoutGrid"><!-- populated --></div>
+          <div class="booth__nav">
+            <span></span>
+            <button class="btn btn--primary" id="step1Next" disabled>Next →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="booth__panel" id="boothPanel2" style="display:none;">
+          <h2 class="h1 booth__title">Choose your frame</h2>
+          <p class="booth__sub">a design language for your memento</p>
+          <div class="frames-scroll" id="framesScroll"><!-- populated --></div>
+          <div class="booth__nav">
+            <button class="btn btn--outline" data-back="1">← Back</button>
+            <button class="btn btn--primary" id="step2Next" disabled>Next →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="booth__panel" id="boothPanel3" style="display:none;">
+          <h2 class="h1 booth__title">Take your photo<span id="shotsPlural">s</span></h2>
+          <p class="booth__sub" id="step3Sub">3 shots required</p>
+          <div class="camera-grid">
+            <div>
+              <div class="viewfinder" id="viewfinder">
+                <video id="cameraVideo" autoplay playsinline muted></video>
+                <div class="viewfinder__placeholder" id="cameraPlaceholder" style="display:none;">
+                  <span class="kanji" style="font-size:24px; color: var(--cedar-soft);">記</span>
+                  <span>Camera not active</span>
+                </div>
+                <div class="viewfinder__corner viewfinder__corner--tl"></div>
+                <div class="viewfinder__corner viewfinder__corner--tr"></div>
+                <div class="viewfinder__corner viewfinder__corner--bl"></div>
+                <div class="viewfinder__corner viewfinder__corner--br"></div>
+                <div class="viewfinder__countdown" id="countdown">3</div>
+                <div class="viewfinder__flash" id="flash"></div>
+              </div>
+              <div class="camera-controls">
+                <button class="btn btn--primary" id="takePhotoBtn">▢ Take photo</button>
+                <button class="cam-toggle" id="flipBtn">⟲ Flip</button>
+                <button class="cam-toggle" id="timerBtn">◷ 3s timer</button>
+              </div>
+              <div class="camera-error" id="cameraError" style="display:none;">
+                <b>Camera permission needed</b>
+                <span>untuk pakai camera, izinkan akses di pengaturan browser. atau upload foto kamu langsung:</span>
+                <br/>
+                <label class="camera-upload">
+                  Upload photos
+                  <input type="file" id="uploadInput" accept="image/*" multiple style="display:none;" />
+                </label>
+              </div>
+            </div>
+            <div>
+              <div class="eyebrow mb-16">your strip</div>
+              <div class="slots-strip" id="slotsStrip"><!-- populated --></div>
+            </div>
+          </div>
+          <div class="booth__nav">
+            <button class="btn btn--outline" data-back="2">← Back</button>
+            <button class="btn btn--primary" id="step3Next" disabled>Next →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="booth__panel" id="boothPanel4" style="display:none;">
+          <h2 class="h1 booth__title">Preview your receipt</h2>
+          <p class="booth__sub">customize before printing</p>
+          <div class="preview-grid">
+            <div class="receipt-preview-wrap">
+              <div class="receipt-preview" id="receiptPreview"><!-- built dynamically --></div>
+            </div>
+            <div class="cust-panel">
+              <div class="cust-field">
+                <label class="cust-label">Caption · max 24 chars</label>
+                <input type="text" class="cust-input" id="captionInput" maxlength="24" placeholder="a small moment." />
+              </div>
+              <div class="cust-field">
+                <label class="cust-label">Date display</label>
+                <div class="cust-toggle is-on" data-toggle="showDate">
+                  <span class="cust-toggle__sw"></span>
+                  <span>Show date on receipt</span>
+                </div>
+              </div>
+              <div class="cust-field">
+                <label class="cust-label">Receipt number</label>
+                <div class="cust-toggle is-on" data-toggle="showNum">
+                  <span class="cust-toggle__sw"></span>
+                  <span>Show session number</span>
+                </div>
+              </div>
+              <div class="cust-field">
+                <label class="cust-label">Strip orientation</label>
+                <div class="cust-toggle" data-toggle="square">
+                  <span class="cust-toggle__sw"></span>
+                  <span>Square crop (default vertical)</span>
+                </div>
+              </div>
+              <div class="cust-meta">
+                <div class="cust-meta__row"><span>DATE</span><span id="metaDate">—</span></div>
+                <div class="cust-meta__row"><span>TIME</span><span id="metaTime">—</span></div>
+                <div class="cust-meta__row"><span>SESSION</span><span id="metaSession">—</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="booth__nav">
+            <button class="btn btn--outline" data-back="3">← Back</button>
+            <button class="btn btn--primary" id="step4Next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="booth__panel" id="boothPanel5" style="display:none;">
+          <h2 class="h1 booth__title">Your receipt is ready.</h2>
+          <p class="script cedar center" style="font-size:24px; margin-bottom: 40px;">fragment of memory, printed.</p>
+          <div class="done-wrap">
+            <div id="finalReceiptMount"></div>
+            <div class="done-actions">
+              <button class="btn btn--primary" id="downloadBtn">⬇ Download receipt</button>
+              <button class="btn btn--outline" id="shareBtn">Share to instagram</button>
+              <button class="btn btn--ghost" id="resetBtn">📷 Take another</button>
+            </div>
+            <div class="done-cta-box">
+              <h4>Want a physical print?</h4>
+              <p class="body">digital is nice. paper is real. book a booth and bring it home in your wallet.</p>
+              <a href="#/booking" class="btn btn--primary">Book now →</a>
+              <div style="margin-top:14px;">
+                <a href="https://wa.me/6281234567890" target="_blank" class="link-arrow">Or chat us on WhatsApp →</a>
+              </div>
+            </div>
+          </div>
+          <div class="booth__nav">
+            <button class="btn btn--outline" data-back="4">← Back</button>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== PRICING ============== -->
+    <section class="page" data-page="/pricing" data-screen-label="04 Pricing">
+      <header class="pricing-hero reveal">
+        <div class="eyebrow" style="color: var(--cedar-soft);">記ノ片</div>
+        <h1 class="h1">Simple, honest pricing.</h1>
+        <p class="body">Each session includes your receipt strip — physical proof of now. no hidden fees, no upsell trap.</p>
+      </header>
+
+      <div class="packages">
+        <div class="pkg reveal">
+          <div class="pkg__name">Standard strip</div>
+          <div class="pkg__price">Rp 35K</div>
+          <div class="pkg__unit">per session</div>
+          <hr class="pkg__divider" />
+          <ul class="pkg__list">
+            <li>1 strip · 4 frames</li>
+            <li>Thermal print receipt</li>
+            <li>Monochrome output</li>
+            <li>Walk-in friendly</li>
+            <li>Standard caption</li>
+          </ul>
+          <a href="#/booking" class="btn btn--outline">Book this →</a>
+        </div>
+        <div class="pkg pkg--feature reveal">
+          <div class="pkg__badge">Most loved</div>
+          <div class="pkg__name">Premium receipt</div>
+          <div class="pkg__price">Rp 55K</div>
+          <div class="pkg__unit">per session</div>
+          <hr class="pkg__divider" />
+          <ul class="pkg__list">
+            <li>Choice of strip layout · 1–4 frames</li>
+            <li>Choose frame design</li>
+            <li>Thermal + digital copy</li>
+            <li>Custom caption (kaushan)</li>
+            <li>記ノ片 edition option</li>
+            <li>Priority retake</li>
+          </ul>
+          <a href="#/booking" class="btn btn--primary">Book this →</a>
+        </div>
+        <div class="pkg reveal">
+          <div class="pkg__name">Event package</div>
+          <div class="pkg__price">Custom</div>
+          <div class="pkg__unit">tailored to event</div>
+          <hr class="pkg__divider" />
+          <ul class="pkg__list">
+            <li>Minimum 50 guests</li>
+            <li>Branded receipt design</li>
+            <li>Dedicated booth operator</li>
+            <li>Full event coverage</li>
+            <li>Co-branded paper option</li>
+          </ul>
+          <a href="https://wa.me/6281234567890?text=Halo%20thermemo%2C%20saya%20ingin%20tanya%20event%20package" target="_blank" class="btn btn--outline-cedar">Chat with us →</a>
+        </div>
+      </div>
+
+      <div class="addons reveal">
+        <div class="eyebrow mb-16">extras</div>
+        <h3>Add to your session</h3>
+        <div class="addons-grid">
+          <div class="addon"><div class="addon__label">+ Sticker seal pack</div><div class="addon__price">Rp 10K</div></div>
+          <div class="addon"><div class="addon__label">+ Digital copy</div><div class="addon__price">Rp 5K</div></div>
+          <div class="addon"><div class="addon__label">+ Extra strip copy</div><div class="addon__price">Rp 10K</div></div>
+          <div class="addon"><div class="addon__label">+ Custom event branding</div><div class="addon__price">on request</div></div>
+        </div>
+      </div>
+
+      <div class="addons reveal" style="border-top:1px solid var(--stone-gray);">
+        <div class="eyebrow mb-16">quick questions</div>
+        <h3 class="mb-24">Common questions</h3>
+        <div id="pricingFaq"></div>
+        <a href="#/faq" class="link-arrow mt-24" style="display:inline-block; margin-top:24px;">See all FAQs →</a>
+      </div>
+    </section>
+
+    <!-- ============== ABOUT ============== -->
+    <section class="page" data-page="/about" data-screen-label="05 About">
+      <header class="about-hero reveal">
+        <div class="about-hero__kanji">記ノ片</div>
+        <div>
+          <div class="eyebrow mb-16">about</div>
+          <h1 class="h1">A small studio for small proofs.</h1>
+          <p class="about-hero__script">Proof that this moment happened.</p>
+          <p class="body">thermemo dimulai dari kebiasaan menyimpan struk parkir, struk kopi, struk konser. kertas tipis yang seharusnya dibuang, tapi entah kenapa tersimpan di laci selama bertahun-tahun.<br/><br/>kami sadar — yang membuat sesuatu jadi kenangan bukan kualitasnya, tapi keberadaannya sebagai benda. thermemo lahir untuk mencetak momen kecil dengan cara yang sama: cepat, fisik, dan agak tidak penting — sampai suatu hari nanti, ketika kamu menemukannya lagi.</p>
+        </div>
+      </header>
+
+      <section class="section section--dark">
+        <div class="container reveal">
+          <div class="eyebrow mb-16">brand dna</div>
+          <h2 class="h2" style="color:#fff;">Four words. One feeling.</h2>
+          <div class="dna-grid">
+            <div class="dna"><div class="dna__term">Thermal</div><p class="dna__desc">cetak instan. tidak menunggu. tidak ada layar. kertas tipis, tinta gelap, suara printer yang menenangkan.</p></div>
+            <div class="dna"><div class="dna__term">Memento</div><p class="dna__desc">benda kecil yang menyimpan momen besar. tidak untuk dipamerkan — untuk disimpan di tempat yang akan ditemukan lagi.</p></div>
+            <div class="dna"><div class="dna__term">Receipt</div><p class="dna__desc">format yang familiar tapi salah konteks. bukti pembayaran jadi bukti keberadaan. dokumen jadi dokumentasi.</p></div>
+            <div class="dna"><div class="dna__term">記ノ片</div><p class="dna__desc">"ki no kata" — fragmen kenangan. seal jepang yang menandai setiap struk kami sebagai bagian dari sesuatu yang lebih besar.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="tear"><svg viewBox="0 0 1200 32" preserveAspectRatio="none"><path d="M0,18 Q15,6 30,20 T60,16 T90,22 T120,14 T150,20 T180,16 T210,24 T240,14 T270,20 T300,18 T330,22 T360,14 T390,20 T420,16 T450,24 T480,14 T510,20 T540,18 T570,22 T600,14 T630,20 T660,16 T690,24 T720,14 T750,20 T780,18 T810,22 T840,14 T870,20 T900,16 T930,24 T960,14 T990,20 T1020,18 T1050,22 T1080,14 T1110,20 T1140,16 T1170,24 T1200,18 L1200,32 L0,32 Z" fill="#F7F4EE"/></svg></div>
+
+      <section class="section">
+        <div class="container reveal">
+          <div class="center mb-48">
+            <div class="eyebrow mb-16">personality</div>
+            <h2 class="h2">What thermemo is — and isn't.</h2>
+          </div>
+          <div class="personality">
+            <div>
+              <h4>thermemo is</h4>
+              <ul>
+                <li>personal, intim, small-scale</li>
+                <li>tenang, sentimental, slow</li>
+                <li>fokus ke objek fisik</li>
+                <li>monochrome dan flat</li>
+                <li>indonesia–english blend</li>
+                <li>collectible, archival</li>
+                <li>untuk introvert</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="color: var(--bad);">thermemo is not</h4>
+              <ul class="personality--not">
+                <li style="--bad:#8A2A1C;">trendy, glossy, hype-driven</li>
+                <li>loud, hyperactive, neon</li>
+                <li>fokus ke shareability</li>
+                <li>kontras tinggi, oversaturated</li>
+                <li>full english marketing speak</li>
+                <li>disposable</li>
+                <li>untuk crowd, mass</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top:0;">
+        <div class="container reveal">
+          <div class="center">
+            <div class="eyebrow mb-16">values</div>
+            <h2 class="h2">Three quiet rules.</h2>
+          </div>
+          <div class="values">
+            <div class="value-card"><h3>Personal & collectible</h3><p>setiap struk dimaksudkan untuk disimpan, bukan di-share. kalau akhirnya kamu share — itu bonus.</p></div>
+            <div class="value-card"><h3>Aesthetic without luxury</h3><p>kami tidak menjual kemewahan. kami menjual kertas thermal yang tampak baik.</p></div>
+            <div class="value-card"><h3>Sentimental without cheesy</h3><p>tidak ada hati-hati emoji, tidak ada "kenangan yang tak terlupakan." cukup tanggal, nomor, dan satu garis kaushan.</p></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============== BLOG ============== -->
+    <section class="page" data-page="/blog" data-screen-label="06 Blog">
+      <header class="blog-hero reveal">
+        <div class="eyebrow mb-16">field notes</div>
+        <h1 class="h1">Stories from the booth.</h1>
+        <p class="script cedar">fragments worth reading.</p>
+      </header>
+      <div class="blog-grid" id="blogGrid"><!-- populated --></div>
+    </section>
+
+    <!-- single post -->
+    <section class="page" data-page="/blog/post" data-screen-label="06b Blog post">
+      <article class="post" id="postArticle"><!-- built --></article>
+    </section>
+
+    <!-- ============== FAQ ============== -->
+    <section class="page" data-page="/faq" data-screen-label="07 FAQ">
+      <header class="faq-hero reveal">
+        <div class="eyebrow" style="color: var(--cedar-soft);">questions</div>
+        <h1 class="h1">Frequently asked.</h1>
+        <p class="body">semua yang biasanya ditanyakan sebelum kamu booking sesi.</p>
+      </header>
+      <div class="faq-wrap" id="faqWrap"><!-- populated --></div>
+      <div class="faq-bottom">
+        <h3>Masih ada pertanyaan?</h3>
+        <a href="https://wa.me/6281234567890?text=Halo%20thermemo%2C%20saya%20mau%20tanya" target="_blank" class="btn btn--primary">Chat us on WhatsApp →</a>
+      </div>
+    </section>
+
+    <!-- ============== CONTACT ============== -->
+    <section class="page" data-page="/contact" data-screen-label="08 Contact">
+      <div class="contact-wrap">
+        <div class="contact-info reveal">
+          <div class="eyebrow">find us</div>
+          <h2 class="h1">Let's talk.</h2>
+          <p class="body mb-32">kami senang dengar dari kamu — soal kolaborasi, event, atau sekedar memberi tahu kalau struk thermemo kamu masih tersimpan di dompet sampai sekarang.</p>
+          <div class="info-row"><span class="info-row__icon">所</span><div class="info-row__content"><div class="info-row__label">Location</div>Jl. Cigadung Selatan No. 42, Bandung 40191</div></div>
+          <div class="info-row"><span class="info-row__icon">時</span><div class="info-row__content"><div class="info-row__label">Hours</div>Selasa–Minggu · 12.00 – 21.00 WIB</div></div>
+          <div class="info-row"><span class="info-row__icon">写</span><div class="info-row__content"><div class="info-row__label">Instagram</div>@thermemo.id</div></div>
+          <div class="info-row"><span class="info-row__icon">話</span><div class="info-row__content"><div class="info-row__label">WhatsApp</div>+62 812-3456-7890</div></div>
+          <div class="map-placeholder" id="map">[ google maps embed ]</div>
+        </div>
+        <div>
+          <form class="contact-form reveal" id="contactForm">
+            <div class="contact-form__head">
+              <span>thermemo · CONTACT FORM</span>
+              <span id="contactDate">—</span>
+            </div>
+            <div class="form-field"><label>Your name</label><input type="text" name="name" required /></div>
+            <div class="form-field"><label>Email address</label><input type="email" name="email" required /></div>
+            <div class="form-field"><label>Phone (optional)</label><input type="tel" name="phone" /></div>
+            <div class="form-field"><label>Message</label><textarea name="message" rows="4" required></textarea></div>
+            <button type="submit" class="btn btn--primary">Send message →</button>
+          </form>
+          <div class="contact-success" id="contactSuccess">
+            <div class="seal">記片</div>
+            <h2 class="h2 mb-12">Message received.</h2>
+            <p class="body">kami akan balas lewat email dalam 1–2 hari kerja. terima kasih sudah meluangkan waktu.</p>
+            <div class="contact-success__num" id="contactRecNum">REF · MEM-——————</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== BOOKING ============== -->
+    <section class="page" data-page="/booking" data-screen-label="09 Booking">
+      <div class="booking-wrap">
+        <div class="center">
+          <div class="eyebrow mb-16">reserve a slot</div>
+          <h1 class="h1">Book your session.</h1>
+        </div>
+        <div class="booth__steps" id="bookingSteps" style="margin-top:48px;">
+          <div class="booth__step is-active" data-bstep="1"><span class="booth__step-dot">1</span><span class="booth__step-label">Details</span></div>
+          <span class="booth__step-line"></span>
+          <div class="booth__step" data-bstep="2"><span class="booth__step-dot">2</span><span class="booth__step-label">Session</span></div>
+          <span class="booth__step-line"></span>
+          <div class="booth__step" data-bstep="3"><span class="booth__step-dot">3</span><span class="booth__step-label">Confirm</span></div>
+        </div>
+
+        <form class="booking-form" id="bookingForm">
+          <div class="booking-form__head">
+            <span>thermemo · BOOKING FORM</span>
+            <span id="bookingDate">—</span>
+          </div>
+
+          <!-- Step 1 -->
+          <div id="bookingPanel1">
+            <div class="form-field"><label>Full name *</label><input type="text" name="name" required /></div>
+            <div class="form-field"><label>WhatsApp number *</label><input type="tel" name="wa" placeholder="08xxxxxxxxxx" required /></div>
+            <div class="form-field"><label>Email address</label><input type="email" name="email" /></div>
+            <div class="form-field"><label>Number of people</label>
+              <select name="people"><option>1</option><option>2</option><option>3</option><option>4+</option></select>
+            </div>
+            <div class="booth__nav">
+              <span></span>
+              <button type="button" class="btn btn--primary" data-bnext="2">Next →</button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div id="bookingPanel2" style="display:none;">
+            <div class="form-field"><label>Preferred date</label><input type="date" name="date" /></div>
+            <div class="form-field">
+              <label>Preferred time</label>
+              <div class="time-grid" id="timeGrid">
+                <button type="button" class="time-pill" data-time="12:00">12:00</button>
+                <button type="button" class="time-pill" data-time="13:00">13:00</button>
+                <button type="button" class="time-pill" data-time="14:00">14:00</button>
+                <button type="button" class="time-pill" data-time="15:00">15:00</button>
+                <button type="button" class="time-pill" data-time="16:00">16:00</button>
+                <button type="button" class="time-pill" data-time="17:00">17:00</button>
+                <button type="button" class="time-pill" data-time="18:00">18:00</button>
+                <button type="button" class="time-pill" data-time="19:00">19:00</button>
+                <button type="button" class="time-pill" data-time="20:00">20:00</button>
+              </div>
+            </div>
+            <div class="form-field"><label>Package</label>
+              <select name="package"><option>Standard Strip · Rp 35K</option><option>Premium Receipt · Rp 55K</option><option>Event Package · custom</option></select>
+            </div>
+            <div class="form-field"><label>Strip layout preference</label>
+              <select name="layout"><option>4 frames (classic)</option><option>3 frames</option><option>2 frames</option><option>1 frame</option></select>
+            </div>
+            <div class="form-field"><label>Frame design preference</label>
+              <select name="frame"><option>Classic Receipt</option><option>記ノ片 Edition</option><option>Minimal Dark</option><option>Paper Grain</option><option>Archive</option><option>Ghost Club</option></select>
+            </div>
+            <div class="form-field"><label>Special request (optional)</label><textarea name="request" rows="3"></textarea></div>
+            <div class="booth__nav">
+              <button type="button" class="btn btn--outline" data-bback="1">← Back</button>
+              <button type="button" class="btn btn--primary" data-bnext="3">Next →</button>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div id="bookingPanel3" style="display:none;">
+            <div class="eyebrow mb-16">booking summary</div>
+            <div class="booking-summary" id="bookingSummary"></div>
+            <hr class="pkg__divider" />
+            <div class="booking-summary__row" style="margin-top:8px;">
+              <span class="booking-summary__label">Total</span>
+              <span class="booking-summary__dots"></span>
+              <span class="booking-summary__value" id="bookingTotal">—</span>
+            </div>
+            <div style="display:flex; justify-content:flex-end; margin-top:24px;">
+              <div class="seal seal--sm">記片</div>
+            </div>
+            <div class="booth__nav" style="margin-top:16px;">
+              <button type="button" class="btn btn--outline" data-bback="2">← Back</button>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button type="button" class="btn btn--outline" id="bookingSend">Send request</button>
+                <a id="bookingWA" target="_blank" class="btn btn--primary">Confirm via WhatsApp →</a>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="booking-confirm" id="bookingConfirm">
+          <div class="seal" style="margin: 0 auto 20px;">記片</div>
+          <h2 class="h2 mb-12">Booking request sent.</h2>
+          <p class="body">we'll confirm via WhatsApp within 1 × 24 hours. terima kasih.</p>
+          <div class="cust-meta" style="text-align:center; max-width:300px; margin: 20px auto 0;" id="bookingRecCard"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">thermemo</div>
+        <p class="footer__tagline">Proof that this moment happened. struk kecil, kenangan padat. 記ノ片 sejak 2025.</p>
+        <div class="footer__socials">
+          <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 2 2 3.5 4.5 4"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21l1.4-4.2A8.5 8.5 0 1 1 7.8 19.6L3 21z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4>Sitemap</h4>
+        <div class="footer__links">
+          <a href="#/">Home</a>
+          <a href="#/gallery">Gallery</a>
+          <a href="#/photobooth">Photobooth</a>
+          <a href="#/pricing">Pricing</a>
+          <a href="#/about">About</a>
+          <a href="#/blog">Blog</a>
+          <a href="#/faq">FAQ</a>
+          <a href="#/contact">Contact</a>
+          <a href="#/booking">Booking</a>
+        </div>
+      </div>
+      <div class="footer__col" style="text-align:right;">
+        <div class="footer__kanji">記ノ片</div>
+        <p class="footer__tagline" style="margin-top:14px; text-align:right;">ki-no-kata · fragment of memory · est. 2025</p>
+      </div>
+    </div>
+    <div class="footer__bottom">© 2025 thermemo · receipt photobooth · 記ノ片</div>
+  </footer>
+
+  <!-- ============== LIGHTBOX ============== -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lightboxClose">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev">‹</button>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext">›</button>
+    <div class="lightbox__inner" id="lightboxInner"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

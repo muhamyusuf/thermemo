@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>thermemo — brand guideline</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="deck-stage.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #1a1714; }
+  :root {
+    --rp: #F7F4EE;
+    --ink: #111111;
+    --cedar: #553125;
+    --stone: #DCD8D1;
+    --soft-ink: rgba(17,17,17,0.5);
+  }
+
+  /* ---------- SLIDE BASE ---------- */
+  section.slide {
+    width: 1920px; height: 1080px;
+    background: var(--rp);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    position: relative;
+    overflow: hidden;
+    padding: 110px 192px; /* ~10% horizontal */
+    box-sizing: border-box;
+    display: flex; flex-direction: column;
+  }
+  section.slide.dark { background: var(--ink); color: var(--rp); }
+
+  /* Slide chrome — number + watermark */
+  .slide-num {
+    position: absolute; top: 56px; right: 88px;
+    font-family: ui-monospace, Menlo, monospace; font-size: 14px;
+    letter-spacing: 0.32em; opacity: 0.55;
+  }
+  .slide.dark .slide-num { opacity: 0.5; }
+
+  .slide-meta {
+    position: absolute; top: 56px; left: 88px;
+    font-family: ui-monospace, Menlo, monospace; font-size: 14px;
+    letter-spacing: 0.32em; opacity: 0.55;
+    display: flex; gap: 24px;
+  }
+
+  .watermark {
+    position: absolute; bottom: 64px; right: 88px;
+    font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 26px;
+    color: var(--cedar); opacity: 0.85;
+  }
+  .slide.dark .watermark { color: #B8945F; opacity: 0.9; }
+
+  .slide-tag {
+    position: absolute; bottom: 70px; left: 88px;
+    font-family: 'Kaushan Script', cursive; font-size: 20px;
+    color: var(--cedar); opacity: 0.85;
+  }
+  .slide.dark .slide-tag { color: #B8945F; }
+
+  /* ---------- TYPE HELPERS ---------- */
+  .eyebrow {
+    font-family: ui-monospace, Menlo, monospace; font-size: 14px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--cedar); margin: 0 0 28px;
+  }
+  .slide.dark .eyebrow { color: #B8945F; }
+
+  h1.slide-title {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700; font-size: 72px; letter-spacing: -0.025em;
+    line-height: 1.02; margin: 0;
+    text-transform: lowercase;
+  }
+  h2.slide-title {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700; font-size: 56px; letter-spacing: -0.02em;
+    line-height: 1.05; margin: 0;
+    text-transform: lowercase;
+  }
+  .lead { font-size: 24px; line-height: 1.55; max-width: 720px; color: #2A2622; }
+  .body-lg { font-size: 22px; line-height: 1.5; }
+  .body-md { font-size: 18px; line-height: 1.55; }
+  .body-sm { font-size: 16px; line-height: 1.5; }
+  .micro { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; text-transform: uppercase; opacity: 0.6; }
+
+  .cedar { color: var(--cedar); }
+  .ink-50 { opacity: 0.55; }
+  .accent-script { font-family: 'Kaushan Script', cursive; color: var(--cedar); }
+  .jp { font-family: 'Thermemo JP', serif; font-weight: 700; }
+
+  .hr-receipt { border: 0; border-top: 1px dashed var(--soft-ink); margin: 36px 0; width: 100%; }
+  .hr-hair { border: 0; border-top: 1px solid var(--stone); margin: 36px 0; }
+  .accent-line { width: 64px; height: 2px; background: var(--cedar); }
+
+  /* ---------- LAYOUTS ---------- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: start; height: 100%; }
+  .two-col.center { align-items: center; }
+  .header { margin-bottom: 56px; }
+
+  /* ---------- SLIDE 01 — COVER ---------- */
+  .cover-stack { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; position: relative; }
+  .cover-word {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700; font-size: 188px; letter-spacing: -0.04em; line-height: 1;
+    text-transform: lowercase;
+  }
+  .cover-subtitle {
+    font-family: 'Kaushan Script', cursive; color: #B8945F;
+    font-size: 44px; line-height: 1; margin-top: -8px;
+  }
+  .cover-divider { width: 96px; height: 1px; background: rgba(247,244,238,0.4); }
+  .cover-eyebrow { font-family: ui-monospace, Menlo, monospace; font-size: 18px; letter-spacing: 0.42em; opacity: 0.6; text-transform: uppercase; }
+  .cover-seal-bg {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Thermemo JP', serif; font-weight: 700;
+    font-size: 720px; line-height: 1;
+    color: #B8945F; opacity: 0.05; pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+  /* Hero logo on slide 1 — the real torn-receipt mark */
+  .cover-logo-hero { width: 360px; display: flex; justify-content: center; }
+  .cover-logo-hero img { width: 100%; height: auto; display: block; filter: invert(1) brightness(0.95); }
+
+  /* small lockup mark (slide 2/3 corners) */
+  .mark-corner { position: absolute; top: 56px; left: 88px; display: flex; align-items: center; gap: 14px; }
+  .mark-corner img { width: 28px; height: auto; display: block; opacity: 0.85; }
+  .slide.dark .mark-corner img { filter: invert(1); opacity: 0.9; }
+  .mark-corner .wm { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; opacity: 0.55; text-transform: uppercase; }
+
+  /* ---------- SLIDE 02 — ESSENCE ---------- */
+  .equation { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+  .eq-term { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -0.02em; }
+  .eq-sym { font-family: ui-monospace, Menlo, monospace; font-size: 36px; opacity: 0.5; }
+  /* Real logo, presented like a receipt artifact on slide 2 */
+  .logo-artifact { position: relative; display: flex; justify-content: center; align-items: center; }
+  .logo-artifact .paper { width: 320px; transform: rotate(-3deg); filter: drop-shadow(0 30px 50px rgba(17,17,17,0.18)); }
+  .logo-artifact .paper img { width: 100%; height: auto; display: block; }
+  .logo-artifact .pin {
+    position: absolute; top: 0; left: 50%; transform: translate(-50%, -40%); z-index: 2;
+    font-family: ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.32em;
+    color: var(--cedar); background: var(--rp); padding: 4px 12px; border: 1px solid var(--cedar); border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .logo-artifact .caption { position: absolute; bottom: -56px; left: 50%; transform: translateX(-50%); font-family: 'Kaushan Script', cursive; color: var(--cedar); font-size: 22px; white-space: nowrap; }
+
+  /* ---------- SLIDE 03 — DNA TABLE ---------- */
+  .dna-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .dna-card { background: transparent; padding: 36px 0; border-top: 1px solid var(--ink); display: flex; flex-direction: column; gap: 16px; }
+  .dna-num { font-family: ui-monospace, Menlo, monospace; font-size: 14px; letter-spacing: 0.32em; color: var(--cedar); }
+  .dna-term { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -0.02em; line-height: 1; text-transform: lowercase; }
+  .dna-jp { font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 44px; line-height: 1; color: var(--cedar); }
+  .dna-desc { font-size: 19px; line-height: 1.5; color: #2A2622; max-width: 440px; }
+
+  /* ---------- SLIDE 04 — POSITIONING ---------- */
+  .quote-block {
+    margin: auto; max-width: 1280px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 40px;
+    position: relative;
+  }
+  .quote-mark { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 200px; color: var(--cedar); line-height: 0.4; height: 60px; opacity: 0.4; }
+  .quote-text {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 400; font-size: 48px; line-height: 1.35; letter-spacing: -0.01em;
+    max-width: 1200px;
+  }
+  .quote-text em { font-family: 'Kaushan Script', cursive; font-style: normal; color: var(--cedar); font-weight: 400; }
+  .quote-cap { width: 88px; height: 2px; background: var(--cedar); }
+
+  /* ---------- SLIDE 05 — PERSONALITY ---------- */
+  .pers-table { width: 100%; border-collapse: collapse; }
+  .pers-table tr { border-top: 1px solid var(--ink); }
+  .pers-table tr:last-child { border-bottom: 1px solid var(--ink); }
+  .pers-table td { padding: 22px 0; vertical-align: baseline; }
+  .pers-table .dim { width: 280px; font-family: ui-monospace, Menlo, monospace; font-size: 14px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--cedar); }
+  .pers-table .val { font-family: 'Helvetica', sans-serif; font-weight: 500; font-size: 24px; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 48px; }
+  .compare h4 { margin: 0 0 16px; font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; text-transform: uppercase; }
+  .compare ul { padding: 0; margin: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .compare li { font-size: 18px; padding-left: 28px; position: relative; }
+  .compare li::before { position: absolute; left: 0; top: 0; font-family: 'Helvetica', sans-serif; font-weight: 700; }
+  .compare .is li::before { content: '+'; color: var(--cedar); }
+  .compare .isnt li::before { content: '×'; color: var(--ink); opacity: 0.55; }
+  .compare .isnt li { opacity: 0.55; text-decoration: line-through; text-decoration-thickness: 0.5px; }
+
+  /* ---------- SLIDE 06 — KEYWORDS ---------- */
+  .kw-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; flex: 1; }
+  .kw-card { border: 1px solid var(--ink); padding: 36px 28px; display: flex; flex-direction: column; gap: 28px; position: relative; min-height: 360px; }
+  .kw-card::after { content: ''; position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border: 1px solid var(--cedar); border-radius: 50%; }
+  .kw-no { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; color: var(--cedar); }
+  .kw-word { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: 0.16em; line-height: 1; text-transform: uppercase; margin-top: auto; }
+  .kw-desc { font-size: 16px; line-height: 1.45; }
+
+  /* ---------- SLIDE 07 — LOGO SYSTEM ---------- */
+  .logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; flex: 1; }
+  .logo-tile { background: #fff; border: 1px solid var(--stone); padding: 36px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; min-height: 360px; position: relative; }
+  .logo-tile .tag { position: absolute; top: 14px; left: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.28em; color: var(--cedar); }
+  .logo-tile .use { position: absolute; bottom: 14px; left: 14px; right: 14px; font-size: 14px; opacity: 0.65; line-height: 1.35; }
+  .logo-tile img { max-height: 200px; width: auto; }
+  .logo-tile .word { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -0.02em; text-transform: lowercase; line-height: 1; }
+  .logo-tile .word + .scripty { font-family: 'Kaushan Script', cursive; color: var(--cedar); font-size: 18px; line-height: 1; margin-top: 4px; }
+  .logo-tile .seal-only { font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 110px; color: var(--cedar); line-height: 1; }
+  .clear-space-note { margin-top: 28px; font-size: 14px; opacity: 0.6; display: flex; gap: 16px; align-items: center; }
+  .clear-space-note .box { width: 28px; height: 28px; border: 1px dashed var(--cedar); }
+
+  /* ---------- SLIDE 08 — MISUSE ---------- */
+  .miss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; flex: 1; }
+  .miss { background: #fff; border: 1px solid var(--stone); position: relative; padding: 40px 24px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px; gap: 16px; }
+  .miss::after { content: '✗'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Helvetica', sans-serif; font-weight: 400; font-size: 280px; color: #8A2A1C; opacity: 0.55; pointer-events: none; line-height: 1;}
+  .miss .label { font-size: 14px; line-height: 1.4; text-align: center; position: relative; z-index: 2; background: #fff; padding: 4px 10px; max-width: 100%; }
+  .miss .stage { position: relative; z-index: 1; }
+
+  /* ---------- SLIDE 09 — COLORS ---------- */
+  .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .color-tile { display: flex; flex-direction: column; gap: 16px; }
+  .color-chip { aspect-ratio: 1.4 / 1; border: 1px solid rgba(17,17,17,0.08); }
+  .color-name { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.01em; line-height: 1; }
+  .color-meta { font-family: ui-monospace, Menlo, monospace; font-size: 14px; opacity: 0.6; }
+  .color-pct { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 18px; color: var(--cedar); }
+  .color-desc { font-size: 15px; line-height: 1.45; }
+  .ratio-bar { display: flex; width: 100%; height: 56px; border: 1px solid rgba(17,17,17,0.1); margin-top: 36px; }
+  .ratio-bar .seg { display:flex; align-items:flex-end; padding: 10px 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 700; }
+  .a11y-note { margin-top: 24px; font-size: 14px; opacity: 0.65; border-top: 1px dashed var(--soft-ink); padding-top: 18px; }
+
+  /* ---------- SLIDE 10 — TYPOGRAPHY ---------- */
+  .type-stack { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px; align-items: end; margin-bottom: 64px; }
+  .type-spec { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--ink); min-height: 220px; }
+  .type-spec .lbl { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--cedar); }
+  .type-spec .name { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
+  .type-spec .demo { font-size: 70px; line-height: 1; margin-top: auto; }
+  .type-rules { display: grid; grid-template-columns: 2fr 1fr; gap: 64px; }
+  .scale-table { width: 100%; border-collapse: collapse; }
+  .scale-table td { padding: 10px 0; border-bottom: 1px dashed var(--soft-ink); font-size: 17px; }
+  .scale-table td.role { width: 200px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cedar); }
+  .scale-table td.specs { font-family: ui-monospace, Menlo, monospace; font-size: 13px; opacity: 0.6; }
+  .rule-list { display: flex; flex-direction: column; gap: 14px; font-size: 16px; padding-top: 6px; }
+  .rule-list .h { font-family: ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cedar); margin-bottom: 4px; }
+
+  /* ---------- SLIDE 11 — MOTIFS ---------- */
+  .motif-list { display: flex; flex-direction: column; gap: 18px; }
+  .motif-row { display: flex; gap: 24px; align-items: center; padding: 14px 0; border-bottom: 1px dashed var(--soft-ink); }
+  .motif-row:last-child { border-bottom: none; }
+  .motif-row .ic { width: 56px; height: 56px; flex: 0 0 56px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--ink); }
+  .motif-row .name { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
+  .motif-row .desc { font-size: 15px; opacity: 0.7; }
+  .moodboard { position: relative; height: 100%; }
+  .moodboard .item { position: absolute; }
+  .moodboard .seal { font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 260px; color: var(--cedar); opacity: 0.9; line-height: 1; top: 20px; left: 80px; transform: rotate(-4deg); }
+  .moodboard .receipt { top: 200px; right: 0; width: 260px; transform: rotate(6deg); background: #fff; border: 1px solid var(--stone); padding: 22px 18px; box-shadow: 0 24px 50px -32px rgba(17,17,17,0.5); }
+  .moodboard .receipt h5 { margin: 0 0 10px; font-size: 16px; text-align: center; letter-spacing: 0.05em; }
+  .moodboard .receipt .line { display:flex; justify-content: space-between; font-family: ui-monospace, Menlo, monospace; font-size: 12px; padding: 2px 0; }
+  .moodboard .lines { position: absolute; bottom: 40px; left: 30px; width: 240px; display: flex; flex-direction: column; gap: 10px; }
+  .moodboard .lines div { height: 1px; background: var(--ink); opacity: 0.6; }
+  .moodboard .lines .d { background: transparent; border-top: 1px dashed var(--soft-ink); height: 0; }
+
+  /* ---------- SLIDE 12 — PHOTOGRAPHY ---------- */
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; flex: 1; align-items: center; }
+  .photo-cell { display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  .photo-frame { width: 100%; aspect-ratio: 2 / 5; position: relative; border-left: 1px dashed rgba(17,17,17,0.3); border-right: 1px dashed rgba(17,17,17,0.3); }
+  .photo-frame::before, .photo-frame::after { content:''; position:absolute; left:0; right:0; height: 10px; background: radial-gradient(circle at 8px 0, var(--rp) 4px, transparent 4.5px) 0 0/16px 10px repeat-x; }
+  .photo-frame::before { top:-5px; transform: rotate(180deg); }
+  .photo-frame::after { bottom:-5px; }
+  .photo-frame.mono { background: linear-gradient(160deg, #1a1714 0%, #4a4540 50%, #14110f 100%); }
+  .photo-frame.sepia { background: linear-gradient(160deg, #3a2a20 0%, #8a6e58 50%, #2c1f17 100%); filter: contrast(0.95); }
+  .photo-frame.contrast { background: linear-gradient(160deg, #050505 0%, #f0ece4 45%, #0a0a0a 100%); filter: contrast(1.15); }
+  .photo-cell .lab { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--cedar); }
+  .photo-cell .lab-name { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.01em; text-transform: lowercase;}
+  .photo-cell .desc { font-size: 15px; opacity: 0.7; text-align: center; }
+  .photo-rules { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; padding-top: 36px; border-top: 1px solid var(--stone); }
+  .photo-rules h4 { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; text-transform: uppercase; margin: 0 0 12px; }
+  .photo-rules ul { padding: 0; margin: 0; list-style: none; display:flex; flex-direction:column; gap: 6px; font-size: 16px; }
+  .photo-rules li::before { margin-right: 10px; font-weight: 700; }
+  .photo-rules .do li::before { content: '+'; color: var(--cedar); }
+  .photo-rules .dont li::before { content: '×'; color: var(--ink); opacity: 0.55; }
+
+  /* ---------- SLIDE 13 — COPY ---------- */
+  .copy-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 96px; align-items: start; }
+  .voice-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .voice-card { border: 1px solid var(--ink); padding: 24px; min-height: 180px; display: flex; flex-direction: column; gap: 10px; }
+  .voice-card .num { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; color: var(--cedar); }
+  .voice-card .name { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.01em; text-transform: lowercase; margin-top: auto; }
+  .voice-card .desc { font-size: 15px; line-height: 1.4; opacity: 0.8; }
+  .tagline-main { font-family: 'Kaushan Script', cursive; color: var(--cedar); font-size: 84px; line-height: 1.05; max-width: 600px;}
+  .tagline-sub { margin-top: 36px; display:flex; flex-direction: column; gap: 14px; }
+  .tagline-sub li { font-size: 19px; padding-left: 22px; position: relative; list-style: none; line-height: 1.4; }
+  .tagline-sub li::before { content: '—'; position: absolute; left: 0; color: var(--cedar); }
+  .tagline-sub ul { padding: 0; margin: 0; list-style: none; display:flex; flex-direction:column; gap: 12px; }
+
+  /* ---------- SLIDE 14 — APPLICATION ---------- */
+  .app-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px; flex: 1; align-items: center; }
+  .app-cell { display:flex; flex-direction:column; gap: 18px; align-items: center; }
+  .app-cell .lab { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--cedar); }
+  .app-receipt { background: #fff; border: 1px solid var(--stone); width: 260px; padding: 30px 22px; box-shadow: 0 30px 60px -36px rgba(17,17,17,0.5); transform: rotate(-3deg); position: relative; }
+  .app-receipt::before, .app-receipt::after { content:''; position:absolute; left:0; right:0; height:10px; background: radial-gradient(circle at 6px 0, var(--rp) 4px, transparent 4.5px) 0 0/14px 10px repeat-x; }
+  .app-receipt::before { top:-10px; transform: rotate(180deg);}
+  .app-receipt::after { bottom:-10px; }
+  .app-receipt h5 { margin: 0 0 14px; font-family: 'Helvetica', sans-serif; font-size: 18px; text-align: center; letter-spacing: 0.05em; }
+  .app-receipt .line { display:flex; justify-content: space-between; font-family: ui-monospace, Menlo, monospace; font-size: 11px; padding: 3px 0; }
+  .app-receipt .strip { background: linear-gradient(160deg, #1a1714 0%, #4a4540 50%, #14110f 100%); height: 240px; margin: 14px -22px; }
+  .app-receipt .dashed { border-top: 1px dashed rgba(17,17,17,0.4); margin: 10px 0; }
+  .app-receipt .tag { text-align: center; font-family: 'Kaushan Script', cursive; color: var(--cedar); font-size: 16px; line-height: 1; margin-top: 12px; }
+
+  .app-sticker { width: 240px; height: 240px; border-radius: 50%; border: 2px solid var(--cedar); display: flex; flex-direction: column; align-items:center; justify-content:center; gap: 4px; color: var(--cedar); position: relative; box-shadow: inset 0 0 0 6px rgba(85,49,37,0.04);}
+  .app-sticker .jp { font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 110px; line-height: 1; }
+  .app-sticker .word { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.32em; text-transform: uppercase; margin-top: 2px; }
+
+  .app-ig { background: #fff; border: 1px solid var(--stone); width: 260px; aspect-ratio: 9/16; display:flex; flex-direction:column; }
+  .app-ig .head { display:flex; gap:8px; align-items:center; padding: 12px; border-bottom: 1px solid var(--stone); font-family: ui-monospace, Menlo, monospace; font-size: 11px; }
+  .app-ig .head .av { width: 22px; height: 22px; border-radius:50%; background: var(--cedar); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Thermemo JP',serif; font-size:12px; font-weight: 700;}
+  .app-ig .body { flex:1; background: linear-gradient(160deg, #1a1714 0%, #4a4540 50%, #14110f 100%); display:flex; align-items:flex-end; padding: 16px; }
+  .app-ig .copy { color: #F7F4EE; font-size: 13px; line-height: 1.4; font-family: 'Kaushan Script', cursive; font-size: 20px; }
+
+  /* ---------- SLIDE 15 — DO & DON'T ---------- */
+  .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .dd-col h4 { display:flex; align-items:center; gap: 12px; font-family: 'Helvetica', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 24px; padding-bottom: 18px; border-bottom: 1px solid var(--ink); }
+  .dd-col .icon { width: 36px; height: 36px; border-radius: 50%; display:inline-flex; align-items:center; justify-content:center; font-weight: 700; font-size: 20px; }
+  .dd-col.do  .icon { border: 1.5px solid var(--cedar); color: var(--cedar); }
+  .dd-col.dont .icon { border: 1.5px solid #8A2A1C; color: #8A2A1C; }
+  .dd-col ul { padding: 0; margin: 0; list-style: none; display: flex; flex-direction: column; gap: 18px; }
+  .dd-col li { font-size: 22px; line-height: 1.4; padding-left: 32px; position: relative; }
+  .dd-col li::before { position: absolute; left: 0; top: 0; font-weight: 700; font-size: 20px; }
+  .dd-col.do  li::before { content: '✓'; color: var(--cedar); }
+  .dd-col.dont li::before { content: '✗'; color: #8A2A1C; }
+  .dd-col.dont li { opacity: 0.7; }
+
+  /* ---------- SLIDE 16 — CLOSING ---------- */
+  .close-stack { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; position: relative; }
+  .close-jp { font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 320px; color: #B8945F; line-height: 1; letter-spacing: -0.05em; }
+  .close-word { font-family: 'Helvetica', sans-serif; font-weight: 700; font-size: 92px; letter-spacing: -0.03em; line-height: 1; text-transform: lowercase; }
+  .close-tag { font-family: 'Kaushan Script', cursive; color: #B8945F; font-size: 48px; line-height: 1; }
+  .close-contact { position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%); display: flex; gap: 48px; }
+  .close-contact div { font-family: ui-monospace, Menlo, monospace; font-size: 14px; letter-spacing: 0.32em; opacity: 0.5; text-transform: uppercase; }
+  .close-seal { position: absolute; top: 96px; left: 50%; transform: translateX(-50%); }
+  .close-seal .ring { width: 110px; height: 110px; border-radius: 50%; border: 1.5px solid #B8945F; display:flex; align-items:center; justify-content:center; font-family: 'Thermemo JP', serif; font-weight: 700; font-size: 56px; color: #B8945F; transform: rotate(-6deg); }
+
+  /* mini-logo helper — uses the real logo image as a corner mark */
+  .mini-logo { position: absolute; top: 56px; left: 88px; display: flex; align-items: center; gap: 14px; }
+  .mini-logo img { width: 24px; height: auto; display: block; opacity: 0.9; }
+  .mini-logo .wm { font-family: ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.32em; opacity: 0.55; text-transform: uppercase; }
+  .slide.dark .mini-logo img { filter: invert(1); opacity: 0.85; }
+
+  /* large ghost-logo watermark for slide 3 */
+  .logo-ghost { position: absolute; right: 0; top: 0; bottom: 0; width: 38%; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+  .logo-ghost img { height: 90%; width: auto; opacity: 0.07; display: block; }
+
+  /* slide 16 — closing logo */
+  .close-logo { width: 380px; }
+  .close-logo img { width: 100%; height: auto; display: block; filter: invert(1) brightness(0.95); }
+</style>
+</head>
+<body>
+
+<deck-stage>
+
+  <!-- =================== 01 — COVER =================== -->
+  <section class="slide dark" data-screen-label="01 Cover">
+    <div class="cover-seal-bg">記</div>
+    <div class="slide-meta" style="opacity:0.45;">brand · guideline · 2026</div>
+    <div class="slide-num" style="opacity:0.45;">01 / 16</div>
+    <div class="cover-stack">
+      <div class="cover-eyebrow">記ノ片 · proof kept</div>
+      <div class="cover-logo-hero"><img src="../assets/logo-thermemo.png" alt="thermemo logo"></div>
+      <div class="cover-word">thermemo</div>
+      <div class="cover-subtitle">brand guideline</div>
+      <div class="cover-divider"></div>
+    </div>
+    <div class="slide-tag">proof that this moment happened.</div>
+  </section>
+
+  <!-- =================== 02 — ESSENCE =================== -->
+  <section class="slide" data-screen-label="02 Brand Essence">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">02 / 16</div>
+    <div class="watermark">記</div>
+
+    <div class="header">
+      <div class="eyebrow">01 — brand essence</div>
+      <h1 class="slide-title">what is thermemo?</h1>
+    </div>
+
+    <div class="two-col center" style="flex:1;">
+      <div style="display:flex; flex-direction:column; gap:32px;">
+        <p class="lead">
+          thermemo adalah <strong>receipt photobooth</strong> yang menangkap momen kecil dalam bentuk struk.
+          personal, intimate, koleksibel — bukan sekadar foto, tapi <em class="accent-script">bukti fisik</em> bahwa sesuatu pernah terjadi.
+        </p>
+        <div class="accent-line"></div>
+        <div class="equation">
+          <span class="eq-term">thermal</span>
+          <span class="eq-sym">+</span>
+          <span class="eq-term">memento</span>
+          <span class="eq-sym">=</span>
+          <span class="eq-term cedar">thermemo</span>
+        </div>
+      </div>
+      <div class="logo-artifact">
+        <span class="pin">no. 0042 · kept</span>
+        <div class="paper"><img src="../assets/logo-thermemo.png" alt="thermemo receipt mark"></div>
+        <span class="caption">a small proof, in paper.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 03 — DNA =================== -->
+  <section class="slide" data-screen-label="03 Brand DNA">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">03 / 16</div>
+    <div class="logo-ghost"><img src="../assets/logo-thermemo.png" alt=""></div>
+    <div class="watermark">片</div>
+
+    <div class="header" style="position:relative; z-index:1;">
+      <div class="eyebrow">02 — core meaning</div>
+      <h1 class="slide-title">brand dna.</h1>
+    </div>
+
+    <div class="dna-grid" style="position:relative; z-index:1;">
+      <div class="dna-card">
+        <div class="dna-num">01</div>
+        <div class="dna-term">thermal</div>
+        <div class="dna-desc">proses cetak cepat, spontan, langsung jadi bukti fisik. dari aksi ke artefak dalam hitungan detik.</div>
+      </div>
+      <div class="dna-card">
+        <div class="dna-num">02</div>
+        <div class="dna-term">memento</div>
+        <div class="dna-desc">kenangan kecil yang disimpan karena punya nilai personal. tidak mahal, tapi tidak akan dibuang.</div>
+      </div>
+      <div class="dna-card">
+        <div class="dna-num">03</div>
+        <div class="dna-term">receipt</div>
+        <div class="dna-desc">bukti bahwa sesuatu pernah terjadi. bentuk paling jujur dari dokumentasi — tanggal, waktu, nomor.</div>
+      </div>
+      <div class="dna-card">
+        <div class="dna-num">04</div>
+        <div class="dna-jp">記ノ片</div>
+        <div class="dna-desc"><em>ki-no-kata</em> — potongan memori. fragmen momen, arsip kecil dari sekarang.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 04 — POSITIONING =================== -->
+  <section class="slide" data-screen-label="04 Positioning">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">04 / 16</div>
+    <div class="watermark">記</div>
+    <div class="slide-tag">proof that this moment happened.</div>
+
+    <div class="header">
+      <div class="eyebrow">03 — positioning</div>
+    </div>
+
+    <div class="quote-block">
+      <div class="quote-mark">“</div>
+      <div class="quote-text">
+        thermemo adalah receipt photobooth untuk orang yang ingin menyimpan momen kecil dengan cara yang lebih
+        <em>quiet</em>, <em>aesthetic</em>, dan <em>personal</em> — bukan sekadar foto, tetapi bukti fisik bahwa momen itu pernah terjadi.
+      </div>
+      <div class="quote-cap"></div>
+    </div>
+  </section>
+
+  <!-- =================== 05 — PERSONALITY =================== -->
+  <section class="slide" data-screen-label="05 Personality">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">05 / 16</div>
+    <div class="watermark">片</div>
+
+    <div class="header">
+      <div class="eyebrow">04 — brand personality</div>
+      <h1 class="slide-title">how the brand feels.</h1>
+    </div>
+
+    <table class="pers-table">
+      <tr><td class="dim">mood</td><td class="val">quiet, warm, intimate</td></tr>
+      <tr><td class="dim">visual</td><td class="val">monochrome, paper texture, cedar brown accent</td></tr>
+      <tr><td class="dim">voice</td><td class="val">singkat, reflektif, casual-sentimental</td></tr>
+      <tr><td class="dim">energy</td><td class="val">low-key, tidak ramai</td></tr>
+      <tr><td class="dim">cultural cue</td><td class="val">japanese-inspired, wabi-sabi, stamp/seal</td></tr>
+    </table>
+
+    <div class="compare">
+      <div>
+        <h4 class="cedar">thermemo is</h4>
+        <ul class="is">
+          <li>a keepsake, not a content piece</li>
+          <li>slow even when the print is fast</li>
+          <li>for one person at a time</li>
+          <li>physical, on purpose</li>
+        </ul>
+      </div>
+      <div>
+        <h4>thermemo is not</h4>
+        <ul class="isnt">
+          <li>another booth with stickers and props</li>
+          <li>loud, hype, or trendy</li>
+          <li>about influencer "moments"</li>
+          <li>a digital download</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 06 — KEYWORDS =================== -->
+  <section class="slide" data-screen-label="06 Keywords">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">06 / 16</div>
+    <div class="watermark">記</div>
+
+    <div class="header">
+      <div class="eyebrow">05 — brand keywords</div>
+      <h1 class="slide-title">four words.</h1>
+    </div>
+
+    <div class="kw-grid">
+      <div class="kw-card">
+        <div class="kw-no">01 · keyword</div>
+        <div class="kw-desc">paring back. less is the point — there's nothing on the page that doesn't earn its place.</div>
+        <div class="kw-word">minimal</div>
+      </div>
+      <div class="kw-card">
+        <div class="kw-no">02 · keyword</div>
+        <div class="kw-desc">tied to memory and to the past — even when it's a brand-new moment, it already feels remembered.</div>
+        <div class="kw-word">nostalgic</div>
+      </div>
+      <div class="kw-card">
+        <div class="kw-no">03 · keyword</div>
+        <div class="kw-desc">never raises its voice. small type. soft color. spaces between things.</div>
+        <div class="kw-word">quiet</div>
+      </div>
+      <div class="kw-card">
+        <div class="kw-no">04 · keyword</div>
+        <div class="kw-desc">writes in fragments. lets a single line carry weight. uses Kaushan only when it means it.</div>
+        <div class="kw-word">poetic</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 07 — LOGO SYSTEM =================== -->
+  <section class="slide" data-screen-label="07 Logo System">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">07 / 16</div>
+    <div class="watermark">片</div>
+
+    <div class="header">
+      <div class="eyebrow">06 — logo system</div>
+      <h1 class="slide-title">lockups.</h1>
+    </div>
+
+    <div class="logo-grid">
+      <div class="logo-tile">
+        <div class="tag">01 · primary</div>
+        <img src="../assets/logo-thermemo.png" alt="thermemo primary logo">
+        <div class="use">seal + wordmark + tagline. default for covers &amp; large surfaces.</div>
+      </div>
+      <div class="logo-tile">
+        <div class="tag">02 · seal</div>
+        <div class="seal-only">記</div>
+        <div class="use">favicons, social avatars, watermarks under 80&nbsp;px.</div>
+      </div>
+      <div class="logo-tile">
+        <div class="tag">03 · wordmark</div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap: 6px;">
+          <div class="word">thermemo</div>
+          <div class="scripty">proof that this moment happened.</div>
+        </div>
+        <div class="use">inline use, headers, signatures.</div>
+      </div>
+      <div class="logo-tile">
+        <div class="tag">04 · seal pair</div>
+        <div style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 110px; color: var(--cedar); line-height:1;">記片</div>
+        <div class="use">stamps on physical goods, receipt corner mark.</div>
+      </div>
+    </div>
+
+    <div class="clear-space-note">
+      <span class="micro">clear space</span>
+      <div class="box"></div>
+      <span>minimum padding equal to the height of the seal ring around every lockup.</span>
+    </div>
+  </section>
+
+  <!-- =================== 08 — MISUSE =================== -->
+  <section class="slide" data-screen-label="08 Logo Don'ts">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">08 / 16</div>
+    <div class="watermark">記</div>
+
+    <div class="header">
+      <div class="eyebrow">07 — logo don'ts</div>
+      <h1 class="slide-title">don't do this.</h1>
+    </div>
+
+    <div class="miss-grid">
+      <div class="miss">
+        <div class="stage" style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 80px; color: var(--cedar);">記:)</div>
+        <div class="label">jangan ubah icon menjadi karakter lucu.</div>
+      </div>
+      <div class="miss">
+        <div class="stage" style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 80px; color: #00E5FF; text-shadow: 0 0 16px #FF00C8;">記</div>
+        <div class="label">jangan gunakan warna neon atau gradient.</div>
+      </div>
+      <div class="miss">
+        <div class="stage" style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 80px; color: var(--cedar); transform: rotate(40deg);">記</div>
+        <div class="label">jangan miringkan logo ekstrem.</div>
+      </div>
+      <div class="miss" style="background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4a90e2); padding: 36px;">
+        <div class="stage" style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 80px; color: var(--cedar);">記</div>
+        <div class="label">jangan taruh di atas foto ramai tanpa background clear.</div>
+      </div>
+      <div class="miss">
+        <div class="stage" style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 80px; color: var(--cedar); position: relative;">
+          記
+          <span style="position:absolute; top:-12px; left:50%; transform: translateX(-50%); font-family:'Helvetica',sans-serif; font-size: 14px; color: var(--ink);">◕‿◕</span>
+        </div>
+        <div class="label">jangan tambah mata atau ekspresi.</div>
+      </div>
+      <div class="miss">
+        <div class="stage" style="font-family:'Thermemo JP',serif; font-weight:700; font-size: 56px; color: var(--cedar);">MEMO</div>
+        <div class="label">jangan ubah 記ノ片 menjadi teks lain.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 09 — COLORS =================== -->
+  <section class="slide" data-screen-label="09 Color System">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">09 / 16</div>
+    <div class="watermark">片</div>
+
+    <div class="header">
+      <div class="eyebrow">08 — color system</div>
+      <h1 class="slide-title">four colors. one mood.</h1>
+    </div>
+
+    <div class="color-grid">
+      <div class="color-tile">
+        <div class="color-chip" style="background:#F7F4EE;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><div class="color-name">rice paper</div><div class="color-pct">55%</div></div>
+        <div class="color-meta">#F7F4EE</div>
+        <div class="color-desc">default background. warm off-white, never pure white.</div>
+      </div>
+      <div class="color-tile">
+        <div class="color-chip" style="background:#111111;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><div class="color-name">ink black</div><div class="color-pct">30%</div></div>
+        <div class="color-meta">#111111</div>
+        <div class="color-desc">body text, dark slides, kontras utama.</div>
+      </div>
+      <div class="color-tile">
+        <div class="color-chip" style="background:#553125;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><div class="color-name">cedar brown</div><div class="color-pct">10%</div></div>
+        <div class="color-meta">#553125</div>
+        <div class="color-desc">accent · seal · CTA. never a background fill.</div>
+      </div>
+      <div class="color-tile">
+        <div class="color-chip" style="background:#DCD8D1;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline;"><div class="color-name">stone gray</div><div class="color-pct">5%</div></div>
+        <div class="color-meta">#DCD8D1</div>
+        <div class="color-desc">hairline rules, ghost borders, secondary marks.</div>
+      </div>
+    </div>
+
+    <div class="ratio-bar">
+      <div class="seg" style="background:#F7F4EE; color:#111; width:55%;">rice paper · 55</div>
+      <div class="seg" style="background:#111111; color:#F7F4EE; width:30%;">ink · 30</div>
+      <div class="seg" style="background:#553125; color:#F7F4EE; width:10%;">cedar · 10</div>
+      <div class="seg" style="background:#DCD8D1; color:#111; width:5%; padding: 10px 6px;">5</div>
+    </div>
+
+    <div class="a11y-note">accessibility — teks utama selalu <strong>ink black</strong> di atas <strong>rice paper</strong> (16.3:1, AAA). cedar brown clears AA untuk display sizes only — jangan untuk body.</div>
+  </section>
+
+  <!-- =================== 10 — TYPOGRAPHY =================== -->
+  <section class="slide" data-screen-label="10 Typography">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">10 / 16</div>
+    <div class="watermark">記</div>
+
+    <div class="header">
+      <div class="eyebrow">09 — typography</div>
+      <h1 class="slide-title">three voices, in type.</h1>
+    </div>
+
+    <div class="type-stack">
+      <div class="type-spec">
+        <div class="lbl">accent · handwritten</div>
+        <div class="name">Kaushan Script</div>
+        <div class="demo" style="font-family:'Kaushan Script',cursive; color:var(--cedar);">a small proof</div>
+      </div>
+      <div class="type-spec">
+        <div class="lbl">primary · functional</div>
+        <div class="name">Helvetica Neue</div>
+        <div class="demo" style="font-family:'Helvetica Neue','Inter Tight',sans-serif; font-weight:700; letter-spacing:-0.02em;">Aa Bb 字</div>
+      </div>
+      <div class="type-spec">
+        <div class="lbl">japanese · stamp</div>
+        <div class="name">Noto Serif JP</div>
+        <div class="demo" style="font-family:'Thermemo JP',serif; font-weight:700; color:var(--cedar);">記ノ片</div>
+      </div>
+    </div>
+
+    <div class="type-rules">
+      <table class="scale-table">
+        <tr><td class="role">H1 / display</td><td>a small proof.</td><td class="specs">Kaushan · 48–96 pt</td></tr>
+        <tr><td class="role">H2</td><td>brand personality.</td><td class="specs">Helvetica Bold · 24–36 pt</td></tr>
+        <tr><td class="role">body</td><td>kenangan kecil yang disimpan karena punya nilai.</td><td class="specs">Helvetica Reg · 10–14 pt</td></tr>
+        <tr><td class="role">microcopy</td><td>NO. 0042 · 22 MAY · 19:48</td><td class="specs">Helvetica · 7–9 pt</td></tr>
+        <tr><td class="role">stamp</td><td><span class="jp">記</span></td><td class="specs">Noto Serif JP</td></tr>
+      </table>
+      <div class="rule-list">
+        <div class="h">rules</div>
+        <div>lowercase preferred for brand &amp; titles.</div>
+        <div>letter-spacing only on labels (0.22em).</div>
+        <div>max 2 fonts per layout.</div>
+        <div>no italics — use Kaushan instead.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 11 — MOTIFS =================== -->
+  <section class="slide" data-screen-label="11 Visual Motifs">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">11 / 16</div>
+    <div class="watermark">片</div>
+
+    <div class="header">
+      <div class="eyebrow">10 — visual motifs</div>
+      <h1 class="slide-title">things we keep reaching for.</h1>
+    </div>
+
+    <div class="two-col" style="flex:1;">
+      <div class="motif-list">
+        <div class="motif-row">
+          <div class="ic"><svg width="36" height="14" viewBox="0 0 36 14"><path d="M0,8 Q4,2 8,10 T16,8 T24,10 T32,8 L36,8 L36,14 L0,14 Z" fill="#111"/></svg></div>
+          <div><div class="name">torn receipt edge</div><div class="desc">section breaks &amp; asset frames.</div></div>
+        </div>
+        <div class="motif-row">
+          <div class="ic"><div style="font-family:'Thermemo JP',serif; font-weight:700; font-size:24px; color:var(--cedar);">記</div></div>
+          <div><div class="name">seal / stamp</div><div class="desc">corner watermark on every artifact.</div></div>
+        </div>
+        <div class="motif-row">
+          <div class="ic"><div style="display:flex;flex-direction:column;gap:4px;width:36px;"><div style="height:1px;background:#111"></div><div style="height:0;border-top:1px dashed rgba(17,17,17,0.5)"></div><div style="height:1px;background:#111"></div></div></div>
+          <div><div class="name">thin linework</div><div class="desc">1 px solid + 0.5 pt dashed dividers.</div></div>
+        </div>
+        <div class="motif-row">
+          <div class="ic" style="background: repeating-radial-gradient(circle at 30% 40%, rgba(17,17,17,0.12) 0 1px, transparent 1px 4px), #F7F4EE;"></div>
+          <div><div class="name">rice paper texture</div><div class="desc">low-opacity grain. never heavy.</div></div>
+        </div>
+        <div class="motif-row">
+          <div class="ic" style="background: linear-gradient(160deg, #1a1714 0%, #4a4540 60%, #14110f 100%);"></div>
+          <div><div class="name">monochrome photography</div><div class="desc">b&amp;w, sepia, or high contrast.</div></div>
+        </div>
+        <div class="motif-row">
+          <div class="ic" style="position:relative;"><span style="position:absolute;bottom:6px;right:6px;font-family:'Helvetica',sans-serif;font-size:14px;font-weight:700;">.</span></div>
+          <div><div class="name">negative space</div><div class="desc">10% slide margins, minimum.</div></div>
+        </div>
+      </div>
+      <div class="moodboard">
+        <div class="item seal">記</div>
+        <div class="item receipt">
+          <h5>thermemo</h5>
+          <div class="line"><span>NO.</span><span>0042</span></div>
+          <div class="line"><span>DATE</span><span>22.05.26</span></div>
+          <div style="border-top:1px dashed rgba(17,17,17,0.4); margin: 10px 0;"></div>
+          <div style="text-align:center; font-family:'Kaushan Script',cursive; color:var(--cedar); font-size: 18px;">kept.</div>
+        </div>
+        <div class="lines">
+          <div></div><div></div><div class="d"></div><div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 12 — PHOTOGRAPHY =================== -->
+  <section class="slide" data-screen-label="12 Photo Direction">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">12 / 16</div>
+    <div class="watermark">記</div>
+
+    <div class="header">
+      <div class="eyebrow">11 — photo direction</div>
+      <h1 class="slide-title">monochrome, only.</h1>
+    </div>
+
+    <div class="photo-grid">
+      <div class="photo-cell">
+        <div class="photo-frame mono"></div>
+        <div class="lab">01 · pure</div>
+        <div class="lab-name">monochrome</div>
+        <div class="desc">hitam-putih bersih. default booth output.</div>
+      </div>
+      <div class="photo-cell">
+        <div class="photo-frame sepia"></div>
+        <div class="lab">02 · warm</div>
+        <div class="lab-name">warm monochrome</div>
+        <div class="desc">sepia lembut. nostalgic keepsake feel.</div>
+      </div>
+      <div class="photo-cell">
+        <div class="photo-frame contrast"></div>
+        <div class="lab">03 · sharp</div>
+        <div class="lab-name">high contrast</div>
+        <div class="desc">crushed blacks, paper highs. editorial.</div>
+      </div>
+    </div>
+
+    <div class="photo-rules">
+      <div>
+        <h4 class="cedar">do</h4>
+        <ul class="do">
+          <li>tight crops on faces and hands</li>
+          <li>natural grain, slight underexposure</li>
+          <li>portrait orientation, 2:5 strip ratio</li>
+        </ul>
+      </div>
+      <div>
+        <h4>don't</h4>
+        <ul class="dont">
+          <li>filter neon, vivid color grading</li>
+          <li>stickers, cute overlays, kawaii props</li>
+          <li>busy backgrounds without clear subject</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 13 — COPY =================== -->
+  <section class="slide" data-screen-label="13 Voice & Copy">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">13 / 16</div>
+    <div class="watermark">片</div>
+
+    <div class="header">
+      <div class="eyebrow">12 — voice &amp; copy</div>
+      <h1 class="slide-title">how we write.</h1>
+    </div>
+
+    <div class="copy-grid">
+      <div class="voice-cards">
+        <div class="voice-card">
+          <div class="num">01</div>
+          <div class="desc">kalimat pendek lebih kuat. dua kalimat = satu paragraf. tiga = terlalu.</div>
+          <div class="name">short</div>
+        </div>
+        <div class="voice-card">
+          <div class="num">02</div>
+          <div class="desc">tidak agresif, tidak salesy. tidak ada "amazing", "epic", "revolutionary".</div>
+          <div class="name">soft</div>
+        </div>
+        <div class="voice-card">
+          <div class="num">03</div>
+          <div class="desc">fokus pada momen dan bukti — bukan fitur produk.</div>
+          <div class="name">memory-led</div>
+        </div>
+        <div class="voice-card">
+          <div class="num">04</div>
+          <div class="desc">dekat dengan Gen-Z. campuran ID–EN boleh, asal konsisten per section.</div>
+          <div class="name">casual</div>
+        </div>
+      </div>
+      <div>
+        <div class="micro" style="color:var(--cedar); margin-bottom: 24px;">tagline · verbatim</div>
+        <div class="tagline-main">proof that this moment happened.</div>
+        <div class="tagline-sub">
+          <ul>
+            <li>struk kecil, kenangan besar</li>
+            <li>momen yang nggak hilang di camera roll</li>
+            <li>bukti bahwa itu nyata</li>
+            <li>kept · stamped · yours</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 14 — APPLICATION =================== -->
+  <section class="slide" data-screen-label="14 Brand In Action">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">14 / 16</div>
+    <div class="watermark">記</div>
+
+    <div class="header">
+      <div class="eyebrow">13 — brand in action</div>
+      <h1 class="slide-title">the brand, applied.</h1>
+    </div>
+
+    <div class="app-grid">
+      <div class="app-cell">
+        <div class="app-receipt">
+          <h5>thermemo</h5>
+          <div class="line"><span>NO.</span><span>0042</span></div>
+          <div class="line"><span>22.05.26</span><span>19:48</span></div>
+          <div class="strip"></div>
+          <div class="dashed"></div>
+          <div class="line"><span>strip × 1</span><span>kept</span></div>
+          <div class="tag">proof that this moment happened.</div>
+        </div>
+        <div class="lab">01 · receipt strip</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-sticker">
+          <div class="jp">記</div>
+          <div class="word">thermemo · 2026</div>
+        </div>
+        <div class="lab">02 · round seal</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ig">
+          <div class="head">
+            <div class="av">記</div>
+            <div style="font-weight:700;">thermemo</div>
+            <div style="margin-left:auto; opacity: 0.5;">···</div>
+          </div>
+          <div class="body">
+            <div class="copy">a small proof, kept.</div>
+          </div>
+        </div>
+        <div class="lab">03 · ig story</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 15 — DO & DON'T =================== -->
+  <section class="slide" data-screen-label="15 Do & Don't">
+    <div class="mini-logo"><img src="../assets/logo-thermemo.png" alt=""><span class="wm">thermemo · 記ノ片</span></div>
+    <div class="slide-num">15 / 16</div>
+    <div class="watermark">片</div>
+
+    <div class="header">
+      <div class="eyebrow">14 — do &amp; don't</div>
+      <h1 class="slide-title">the short list.</h1>
+    </div>
+
+    <div class="dd-grid">
+      <div class="dd-col do">
+        <h4><span class="icon">✓</span>do</h4>
+        <ul>
+          <li>whitespace luas — minimum 10% margin</li>
+          <li>foto monochrome, vertical 2:5 strip</li>
+          <li>cedar brown sebagai aksen kecil</li>
+          <li>copy pendek &amp; meaningful</li>
+          <li>記ノ片 konsisten — corner watermark</li>
+        </ul>
+      </div>
+      <div class="dd-col dont">
+        <h4><span class="icon">✗</span>don't</h4>
+        <ul>
+          <li>ornamen jepang berlebihan (sakura, torii)</li>
+          <li>warna pastel ramai atau neon</li>
+          <li>terlalu banyak font dalam satu layout</li>
+          <li>layout penuh, padat, sesak</li>
+          <li>ubah icon jadi karakter lucu / emoji</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 16 — CLOSING =================== -->
+  <section class="slide dark" data-screen-label="16 Closing">
+    <div class="slide-meta" style="opacity:0.45;">brand · guideline · 2026</div>
+    <div class="slide-num" style="opacity:0.45;">16 / 16</div>
+
+    <div class="close-stack">
+      <div class="close-logo"><img src="../assets/logo-thermemo.png" alt="thermemo"></div>
+      <div class="close-word">thermemo</div>
+      <div class="close-tag">proof that this moment happened.</div>
+    </div>
+
+    <div class="close-contact">
+      <div>thermemo.id</div>
+      <div>·</div>
+      <div>@thermemo</div>
+      <div>·</div>
+      <div>hi@thermemo.id</div>
+    </div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
