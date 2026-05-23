@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 600" fill="none">
+  <defs>
+    <pattern id="perf-top" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="0" r="3" fill="#F7F4EE"></circle>
+    </pattern>
+    <pattern id="perf-bot" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="14" r="3" fill="#F7F4EE"></circle>
+    </pattern>
+  </defs>
+  <rect x="6" y="14" width="188" height="572" fill="#FFFFFF" stroke="#DCD8D1" stroke-width="1"></rect>
+  <rect x="0" y="0" width="200" height="14" fill="url(#perf-top)"></rect>
+  <rect x="0" y="586" width="200" height="14" fill="url(#perf-bot)"></rect>
+</svg>
