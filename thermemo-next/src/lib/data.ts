@@ -7,6 +7,19 @@ export interface Receipt {
   tone: string;
 }
 
+export const TONE_GRADIENTS: Record<string, string> = {
+  g1: 'linear-gradient(160deg, #b0aba2, #3b3631)',
+  g2: 'linear-gradient(200deg, #d4cfc6, #2a2622)',
+  g3: 'linear-gradient(135deg, #9b9690, #545049)',
+  g4: 'linear-gradient(180deg, #cac4ba, #6a625a)',
+  g5: 'linear-gradient(220deg, #88847e, #1a1816)',
+  g6: 'linear-gradient(160deg, #d8d3ca, #4a443e)',
+};
+
+export function getToneGradient(tone: string): string {
+  return TONE_GRADIENTS[tone] ?? TONE_GRADIENTS.g1;
+}
+
 export interface BlogPost {
   slug: string;
   cat: string;
@@ -28,6 +41,13 @@ export interface FaqGroup {
 }
 
 export interface Frame {
+  id: string;
+  name: string;
+  sub: string;
+  cls: string;
+}
+
+export interface FrameStyle {
   id: string;
   name: string;
   sub: string;
@@ -65,6 +85,15 @@ export const TESTIMONIALS: Receipt[] = [
 ];
 
 export const FRAMES: Frame[] = [
+  { id: 'classic', name: 'Classic Receipt', sub: 'plain · clean', cls: '' },
+  { id: 'ki', name: '記ノ片 Edition', sub: 'cedar accent', cls: 'cedar' },
+  { id: 'dark', name: 'Minimal Dark', sub: 'black paper', cls: 'dark' },
+  { id: 'paper', name: 'Paper Grain', sub: 'rice texture', cls: 'paper' },
+  { id: 'archive', name: 'Archive', sub: 'aged stone', cls: 'archive' },
+  { id: 'ghost', name: 'Ghost Club', sub: 'dark · seal', cls: 'ghost' },
+];
+
+export const FRAME_STYLES: FrameStyle[] = [
   { id: 'classic', name: 'Classic Receipt', sub: 'plain · clean', cls: '' },
   { id: 'ki', name: '記ノ片 Edition', sub: 'cedar accent', cls: 'cedar' },
   { id: 'dark', name: 'Minimal Dark', sub: 'black paper', cls: 'dark' },

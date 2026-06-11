@@ -1,18 +1,39 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function Footer() {
-  const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Photobooth", href: "/photobooth" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "About", href: "/about" },
-    { name: "Blog", href: "/blog" },
-    { name: "FAQ", href: "/faq" },
-    { name: "Contact", href: "/contact" },
-    { name: "Booking", href: "/booking" },
+  const columns = [
+    {
+      title: "Tools",
+      links: [
+        { name: "Online Photobooth", href: "/photobooth" },
+        { name: "How to Use", href: "/how-to-use" },
+      ],
+    },
+    {
+      title: "Explore",
+      links: [
+        { name: "Gallery", href: "/gallery" },
+        { name: "Blog & Tips", href: "/blog" },
+        { name: "Our Story", href: "/about" },
+        { name: "FAQ", href: "/faq" },
+      ],
+    },
+    {
+      title: "Visit",
+      links: [
+        { name: "Booking", href: "/booking" },
+        { name: "Pricing", href: "/pricing" },
+        { name: "Contact Us", href: "/contact" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { name: "Privacy Policy", href: "/privacy" },
+        { name: "Terms of Service", href: "/terms" },
+      ],
+    },
   ];
 
   const social = [
@@ -22,55 +43,53 @@ export function Footer() {
 
   return (
     <footer className="flex flex-col items-center gap-14 pt-28 lg:pt-32">
-      <div className="container space-y-3 text-center">
-        <h2 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
-          Ready to print your memory?
-        </h2>
-        <p className="text-muted-foreground mx-auto max-w-xl leading-snug text-balance">
-          Book your session — walk in atau reserve online.
+      <div className="container max-w-2xl space-y-3 text-center">
+        <p
+          className="text-primary text-xl"
+          style={{ fontFamily: "var(--font-accent)", fontStyle: "italic" }}
+        >
+          Proof that this moment happened.
         </p>
-        <div>
-          <Button size="lg" className="mt-4" asChild>
-            <Link href="/booking">
-              Book now →
-            </Link>
-          </Button>
-        </div>
+        <p className="text-muted-foreground mx-auto max-w-xl leading-snug text-balance text-sm">
+          struk kecil, kenangan padat. thermemo receipt photobooth — Bandung, sejak 2025.
+        </p>
       </div>
 
-      <nav className="container flex flex-col items-center gap-4">
-        <ul className="flex flex-wrap items-center justify-center gap-6">
-          {navigation.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
-                className="font-medium transition-opacity hover:opacity-75"
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-          {social.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
-                className="flex items-center gap-0.5 font-medium transition-opacity hover:opacity-75"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {item.name} <ArrowUpRight className="size-4" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <ul className="flex flex-wrap items-center justify-center gap-6">
-          <li>
-            <span className="text-muted-foreground text-sm">
-              © 2026 thermemo · Bandung, Indonesia
-            </span>
-          </li>
-        </ul>
+      <nav className="container grid gap-10 border-t pt-12 sm:grid-cols-2 lg:grid-cols-4">
+        {columns.map((column) => (
+          <div key={column.title}>
+            <h3 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-primary">
+              {column.title}
+            </h3>
+            <ul className="space-y-3">
+              {column.links.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </nav>
+
+      <div className="container flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+        <span>© 2026 thermemo · receipt photobooth · 記ノ片</span>
+        <div className="flex gap-5">
+          {social.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="flex items-center gap-0.5 font-medium transition-opacity hover:opacity-75"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {item.name} <ArrowUpRight className="size-4" />
+            </Link>
+          ))}
+        </div>
+      </div>
 
       <div className="text-primary mt-10 w-full overflow-hidden">
         <p

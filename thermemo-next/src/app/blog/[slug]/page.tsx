@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Background } from "@/components/background";
 import { Button } from "@/components/ui/button";
-import { BLOG } from "@/lib/data";
+import { BLOG, getToneGradient } from "@/lib/data";
+import { BLOG_CONTENT } from "@/lib/blog-content";
 
 export async function generateStaticParams() {
   return BLOG.map((post) => ({ slug: post.slug }));
@@ -16,17 +17,16 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = BLOG.find((p) => p.slug === slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: `${post.title} | thermemo`,
+      description: post.excerpt,
+      type: "article",
+    },
+  };
 }
-
-const toneGradients: Record<string, string> = {
-  g1: "linear-gradient(160deg, #b0aba2, #3b3631)",
-  g2: "linear-gradient(200deg, #d4cfc6, #2a2622)",
-  g3: "linear-gradient(135deg, #9b9690, #545049)",
-  g4: "linear-gradient(180deg, #cac4ba, #6a625a)",
-  g5: "linear-gradient(220deg, #88847e, #1a1816)",
-  g6: "linear-gradient(160deg, #d8d3ca, #4a443e)",
-};
 
 export default async function BlogPostPage({
   params,
@@ -38,27 +38,26 @@ export default async function BlogPostPage({
 
   if (!post) notFound();
 
+  const content = BLOG_CONTENT[slug];
+
   return (
     <Background>
       <article className="py-28 lg:pt-44 lg:pb-32">
         <div className="container max-w-2xl">
-          {/* back */}
           <div className="mb-10">
             <Button variant="outline" size="sm" asChild>
               <Link href="/blog">← Kembali ke blog</Link>
             </Button>
           </div>
 
-          {/* hero */}
           <div
             className="w-full h-64 mb-10"
             style={{
-              background: toneGradients[post.tone] ?? toneGradients.g1,
+              background: getToneGradient(post.tone),
               borderRadius: "2px",
             }}
           />
 
-          {/* header */}
           <div className="space-y-4 mb-10">
             <div className="flex items-center gap-3">
               <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-primary">
@@ -76,28 +75,45 @@ export default async function BlogPostPage({
             </p>
           </div>
 
-          {/* body placeholder */}
           <div className="prose prose-sm max-w-none text-muted-foreground space-y-4">
-            <p>
-              {post.excerpt}
+            {content ? (
+              content.map((block, i) => {
+                if (block.type === "heading") {
+                  return <h2 key={i} className="text-foreground">{block.text}</h2>;
+                }
+                if (block.type === "pullquote") {
+                  return (
+                    <blockquote
+                      key={i}
+                      className="border-l-2 border-primary pl-4 italic text-primary text-lg"
+                      style={{ fontFamily: "var(--font-accent)" }}
+                    >
+                      {block.text}
+                    </blockquote>
+                  );
+                }
+                return <p key={i} className="leading-7">{block.text}</p>;
+              })
+            ) : (
+              <>
+                <p>{post.excerpt}</p>
+                <p>
+                  ini adalah field notes thermemo — catatan kecil dari balik booth,
+                  tentang hal-hal yang kami pelajari setiap sesinya.
+                </p>
+              </>
+            )}
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-border">
+            <p className="text-sm text-muted-foreground mb-4">
+              tag{" "}
+              <span className="font-semibold text-foreground">@thermemo.id #thermemo</span>{" "}
+              kalau kamu punya cerita sendiri dari booth.
             </p>
-            <p>
-              ini adalah field notes thermemo — catatan kecil dari balik booth,
-              tentang hal-hal yang kami pelajari setiap sesinya.
-            </p>
-            <p>
-              tulisan ini sedang dalam pengembangan. nantikan update berikutnya
-              di instagram kami{" "}
-              <a
-                href="https://instagram.com/thermemo.id"
-                className="text-primary underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                @thermemo.id
-              </a>
-              .
-            </p>
+            <Button asChild>
+              <Link href="/photobooth">Start the Booth</Link>
+            </Button>
           </div>
         </div>
       </article>

@@ -33,24 +33,6 @@ const testimonialsData = [
     detail: "thermemo sesi #0007",
     receipt: TESTIMONIALS[2],
   },
-  {
-    quote: "masih kusimpan di dompet, tujuh bulan kemudian.",
-    author: "Rania K.",
-    detail: "thermemo sesi #0021",
-    receipt: TESTIMONIALS[0],
-  },
-  {
-    quote: "lebih bagus dari polaroid manapun.",
-    author: "Dimas P.",
-    detail: "thermemo sesi #0014",
-    receipt: TESTIMONIALS[1],
-  },
-  {
-    quote: "kertasnya tipis. kenangannya tidak.",
-    author: "Ara S.",
-    detail: "thermemo sesi #0007",
-    receipt: TESTIMONIALS[2],
-  },
 ];
 
 export const TestimonialsSection = ({

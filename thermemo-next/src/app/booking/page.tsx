@@ -29,6 +29,13 @@ interface BookingData {
   request: string;
 }
 
+interface FormErrors {
+  name?: string;
+  wa?: string;
+  date?: string;
+  time?: string;
+}
+
 const TIME_SLOTS = [
   "12:00", "13:00", "14:00", "15:00", "16:00",
   "17:00", "18:00", "19:00", "20:00",
@@ -40,6 +47,7 @@ export default function Booking() {
   const [refNum, setRefNum] = useState("");
   const [today, setToday] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});
   const [data, setData] = useState<BookingData>({
     name: "", wa: "", email: "", people: "1",
     date: "", time: "", pkg: "Standard Strip · Rp 35K",
@@ -53,10 +61,36 @@ export default function Booking() {
 
   function update(field: keyof BookingData, val: string) {
     setData((d) => ({ ...d, [field]: val }));
+    setErrors((e) => ({ ...e, [field]: undefined }));
+  }
+
+  function validateStep1(): boolean {
+    const newErrors: FormErrors = {};
+    if (!data.name.trim()) newErrors.name = "Nama wajib diisi";
+    if (!data.wa.trim()) newErrors.wa = "WhatsApp wajib diisi";
+    else if (!/^08\d{8,12}$/.test(data.wa.replace(/[\s-]/g, ""))) newErrors.wa = "Format WhatsApp tidak valid";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
+  function validateStep2(): boolean {
+    const newErrors: FormErrors = {};
+    if (!data.date) newErrors.date = "Tanggal wajib dipilih";
+    else {
+      const selected = new Date(data.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selected < today) newErrors.date = "Tanggal tidak boleh di masa lalu";
+    }
+    if (!selectedTime) newErrors.time = "Jam wajib dipilih";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   }
 
   function goNext() {
+    if (step === 1 && !validateStep1()) return;
     if (step === 2) {
+      if (!validateStep2()) return;
       const now = new Date();
       const d = now.toLocaleDateString("en-GB").replace(/\//g, "");
       setRefNum("MEM-" + d + "-" + Math.floor(1000 + Math.random() * 9000));
@@ -66,6 +100,7 @@ export default function Booking() {
 
   function goBack() {
     setStep((s) => Math.max(s - 1, 1) as Step);
+    setErrors({});
   }
 
   const price = data.pkg.includes("35K")
@@ -91,7 +126,6 @@ export default function Booking() {
         </h1>
       </div>
 
-      {/* step indicator */}
       <div className="flex items-center justify-center gap-0 mb-10">
         {([1, 2, 3] as Step[]).map((s, i) => (
           <div key={s} className="flex items-center">
@@ -134,24 +168,46 @@ export default function Booking() {
               <span>{today}</span>
             </div>
 
-            {/* STEP 1 */}
             {step === 1 && (
               <div className="space-y-6">
-                {[
-                  { label: "Nama lengkap *", name: "name" as const, type: "text", placeholder: "" },
-                  { label: "WhatsApp *", name: "wa" as const, type: "tel", placeholder: "08xxxxxxxxxx" },
-                  { label: "Email", name: "email" as const, type: "email", placeholder: "" },
-                ].map((f) => (
-                  <div key={f.name} className="space-y-2">
-                    <Label>{f.label}</Label>
-                    <Input
-                      type={f.type}
-                      placeholder={f.placeholder}
-                      value={data[f.name]}
-                      onChange={(e) => update(f.name, e.target.value)}
-                    />
-                  </div>
-                ))}
+                <div className="space-y-2">
+                  <Label htmlFor="booking-name">Nama lengkap *</Label>
+                  <Input
+                    id="booking-name"
+                    type="text"
+                    value={data.name}
+                    onChange={(e) => update("name", e.target.value)}
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                  />
+                  {errors.name && (
+                    <p id="name-error" className="text-sm text-destructive" role="alert">{errors.name}</p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="booking-wa">WhatsApp *</Label>
+                  <Input
+                    id="booking-wa"
+                    type="tel"
+                    placeholder="08xxxxxxxxxx"
+                    value={data.wa}
+                    onChange={(e) => update("wa", e.target.value)}
+                    aria-invalid={!!errors.wa}
+                    aria-describedby={errors.wa ? "wa-error" : undefined}
+                  />
+                  {errors.wa && (
+                    <p id="wa-error" className="text-sm text-destructive" role="alert">{errors.wa}</p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="booking-email">Email</Label>
+                  <Input
+                    id="booking-email"
+                    type="email"
+                    value={data.email}
+                    onChange={(e) => update("email", e.target.value)}
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label>Jumlah orang</Label>
                   <Select value={data.people} onValueChange={(v) => update("people", v)}>
@@ -171,25 +227,36 @@ export default function Booking() {
               </div>
             )}
 
-            {/* STEP 2 */}
             {step === 2 && (
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <Label>Tanggal yang diinginkan</Label>
+                  <Label htmlFor="booking-date">Tanggal yang diinginkan *</Label>
                   <Input
+                    id="booking-date"
                     type="date"
                     value={data.date}
                     onChange={(e) => update("date", e.target.value)}
+                    min={new Date().toISOString().split("T")[0]}
+                    aria-invalid={!!errors.date}
+                    aria-describedby={errors.date ? "date-error" : undefined}
                   />
+                  {errors.date && (
+                    <p id="date-error" className="text-sm text-destructive" role="alert">{errors.date}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
-                  <Label>Jam yang diinginkan</Label>
-                  <div className="grid grid-cols-3 gap-2 mt-2">
+                  <Label>Jam yang diinginkan *</Label>
+                  <div className="grid grid-cols-3 gap-2 mt-2" role="radiogroup" aria-label="Pilih jam">
                     {TIME_SLOTS.map((t) => (
                       <button
                         key={t}
                         type="button"
-                        onClick={() => setSelectedTime(t)}
+                        role="radio"
+                        aria-checked={selectedTime === t}
+                        onClick={() => {
+                          setSelectedTime(t);
+                          setErrors((e) => ({ ...e, time: undefined }));
+                        }}
                         className="py-[10px] border text-[12px] font-semibold tracking-[0.05em] text-center transition-all duration-200"
                         style={{
                           fontFamily: "var(--font-mono)",
@@ -203,6 +270,9 @@ export default function Booking() {
                       </button>
                     ))}
                   </div>
+                  {errors.time && (
+                    <p className="text-sm text-destructive" role="alert">{errors.time}</p>
+                  )}
                 </div>
 
                 {[
@@ -268,7 +338,6 @@ export default function Booking() {
               </div>
             )}
 
-            {/* STEP 3 */}
             {step === 3 && (
               <div>
                 <div className="text-[10px] tracking-[0.3em] uppercase font-medium text-muted-foreground mb-4">

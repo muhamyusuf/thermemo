@@ -2,15 +2,35 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { FRAMES, LAYOUTS } from "@/lib/data";
+import {
+  Camera,
+  Copy,
+  Download,
+  Instagram,
+  RefreshCcw,
+  RotateCcw,
+  Share2,
+  Timer,
+  Upload,
+} from "lucide-react";
+import { FRAME_STYLES } from "@/lib/data";
+import { FRAME_TEMPLATES, getTemplateById } from "@/lib/frames";
+import { getFilterCss } from "@/lib/filters";
+import { trackEvent } from "@/lib/analytics";
+import { saveBoothState, loadBoothState, clearBoothState } from "@/lib/booth-storage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ReceiptRenderer } from "@/components/photobooth/receipt-renderer";
+import { StampLayer, type StampPlacement } from "@/components/photobooth/stamp-layer";
+import { FilterSelector } from "@/components/photobooth/filter-selector";
+import { TabbedLayoutPicker } from "@/components/photobooth/tabbed-layout-picker";
 
-type Step = 1 | 2 | 3 | 4 | 5;
+type Step = 1 | 2 | 3 | 4;
 
 interface BoothState {
-  layout: number;
-  frame: string;
+  templateId: string;
+  frameStyleId: string;
+  filterId: string;
   photos: (string | null)[];
   caption: string;
   showDate: boolean;
@@ -21,151 +41,72 @@ interface BoothState {
   date: string;
   time: string;
   session: string;
+  stamps: StampPlacement[];
 }
 
-function ReceiptPreview({ state, id }: { state: BoothState; id?: string }) {
-  const frame = FRAMES.find((f) => f.id === state.frame) || FRAMES[0];
-  const cls = frame.cls;
+const INITIAL_STATE: BoothState = {
+  templateId: "",
+  frameStyleId: "",
+  filterId: "thermal",
+  photos: [],
+  caption: "",
+  showDate: true,
+  showNum: true,
+  square: false,
+  timer: false,
+  facingMode: "user",
+  date: "",
+  time: "",
+  session: "",
+  stamps: [],
+};
 
-  const bgStyle: React.CSSProperties =
-    cls === "dark" || cls === "ghost"
-      ? { background: "#111", color: "#F7F4EE" }
-      : cls === "paper"
-        ? { background: "#EFEADF" }
-        : cls === "archive"
-          ? { background: "#e8e3d8" }
-          : { background: "#fff", color: "#111111" };
-
-  const borderStyle: React.CSSProperties =
-    cls === "cedar"
-      ? { border: "1.5px solid #553125" }
-      : cls === "dark"
-        ? { border: "1px solid #111" }
-        : cls === "ghost"
-          ? { border: "1.5px solid #553125", background: "#111", color: "#F7F4EE" }
-          : { border: "1px solid #DCD8D1" };
-
-  const cap = (state.caption || "a small moment.").slice(0, 24);
-
-  return (
-    <div
-      id={id}
-      className="relative w-[320px] px-[22px] pt-5 pb-0"
-      style={{ ...bgStyle, ...borderStyle, fontFamily: "var(--font-sans)" }}
-    >
-      <div
-        className="font-bold text-[18px] tracking-[-0.02em] lowercase text-center pb-[6px]"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        thermemo
-      </div>
-      <div
-        className="text-center text-[8px] tracking-[0.3em] uppercase opacity-60 pb-[14px] mb-[14px]"
-        style={{ borderBottom: "1px dashed currentColor" }}
-      >
-        記ノ片 · ki no kata
-      </div>
-      {state.showDate && (
-        <div className="flex justify-between text-[8px] tracking-[0.2em] font-semibold uppercase opacity-85 pb-3">
-          <span>DATE · {state.date}</span>
-          <span>TIME · {state.time}</span>
-        </div>
-      )}
-      <div className="grid gap-2 mb-3">
-        {Array.from({ length: state.layout }).map((_, i) => {
-          const p = state.photos[i];
-          return p ? (
-            <div
-              key={i}
-              className="overflow-hidden relative"
-              style={{
-                aspectRatio: state.square ? "1/1" : "3/4",
-                filter: "grayscale(100%) contrast(1.05)",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={p}
-                alt={`photo ${i + 1}`}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </div>
-          ) : (
-            <div
-              key={i}
-              className="relative"
-              style={{
-                aspectRatio: state.square ? "1/1" : "3/4",
-                background:
-                  "repeating-linear-gradient(45deg, transparent 0 6px, rgba(0,0,0,0.05) 6px 7px), #DCD8D1",
-              }}
-            />
-          );
-        })}
-      </div>
-      <div
-        className="text-center text-[18px] italic py-[6px] pb-[10px] min-h-[28px]"
-        style={{
-          fontFamily: "var(--font-accent)",
-          color:
-            cls === "dark" || cls === "ghost" ? "#9a7c6e" : "#553125",
-        }}
-      >
-        {cap}
-      </div>
-      <div className="opacity-50 my-1" style={{ borderTop: "1px dashed currentColor" }} />
-      <div className="flex justify-between items-end text-[8px] tracking-[0.22em] uppercase pb-4">
-        <span>{state.showNum ? `NO. ${state.session}` : ""}</span>
-        <div
-          className="w-9 h-9 flex items-center justify-center text-[13px]"
-          style={{
-            borderRadius: "50%",
-            border: `1px solid ${cls === "dark" || cls === "ghost" ? "#9a7c6e" : "#553125"}`,
-            color: cls === "dark" || cls === "ghost" ? "#9a7c6e" : "#553125",
-            fontFamily: "var(--font-jp)",
-          }}
-        >
-          記片
-        </div>
-      </div>
-      <div className="text-center text-[9px] tracking-[0.3em] uppercase opacity-70 pb-4 font-medium">
-        proof that this moment happened.
-      </div>
-      <div
-        className="absolute right-[-16px] top-1/2 -translate-y-1/2 rotate-90 text-[11px] tracking-[0.15em] whitespace-nowrap"
-        style={{
-          fontFamily: "var(--font-jp)",
-          color: cls === "dark" || cls === "ghost" ? "#9a7c6e" : "#553125",
-        }}
-      >
-        記ノ片 · KI NO KATA
-      </div>
-    </div>
-  );
-}
+const RECEIPT_WIDTH = 320;
 
 export default function Photobooth() {
   const [step, setStep] = useState<Step>(1);
-  const [booth, setBooth] = useState<BoothState>({
-    layout: 0,
-    frame: "",
-    photos: [],
-    caption: "",
-    showDate: true,
-    showNum: true,
-    square: false,
-    timer: false,
-    facingMode: "user",
-    date: "",
-    time: "",
-    session: "",
-  });
+  const [booth, setBooth] = useState<BoothState>(INITIAL_STATE);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [flashing, setFlashing] = useState(false);
   const [cameraError, setCameraError] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
+  const [captureError, setCaptureError] = useState("");
+  const [downloadReady, setDownloadReady] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
+
+  const template = getTemplateById(booth.templateId) ?? FRAME_TEMPLATES[3];
+  const frameStyle =
+    FRAME_STYLES.find((f) => f.id === booth.frameStyleId) ?? FRAME_STYLES[0];
+  const filterCss = getFilterCss(booth.filterId);
+  const photoCount = template.photoCount;
+
+  useEffect(() => {
+    const saved = loadBoothState();
+    if (saved.selectedFrameId) {
+      setBooth((b) => ({
+        ...b,
+        frameStyleId: saved.selectedFrameId ?? b.frameStyleId,
+        filterId: saved.selectedFilter ?? b.filterId,
+        caption: saved.caption ?? b.caption,
+        showDate: saved.showDate ?? b.showDate,
+        showNum: saved.showNum ?? b.showNum,
+        square: saved.square ?? b.square,
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    saveBoothState({
+      selectedFrameId: booth.frameStyleId,
+      selectedFilter: booth.filterId,
+      caption: booth.caption,
+      showDate: booth.showDate,
+      showNum: booth.showNum,
+      square: booth.square,
+    });
+  }, [booth.frameStyleId, booth.filterId, booth.caption, booth.showDate, booth.showNum, booth.square]);
 
   const stopStream = useCallback(() => {
     if (streamRef.current) {
@@ -177,30 +118,39 @@ export default function Photobooth() {
   const startCamera = useCallback(
     async (facingMode: string) => {
       stopStream();
+      setCameraReady(false);
+      setCameraError(false);
+      setCaptureError("");
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode },
+          video: {
+            facingMode: { ideal: facingMode },
+            width: { ideal: 1280 },
+            height: { ideal: 960 },
+          },
           audio: false,
         });
         streamRef.current = stream;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           videoRef.current.style.display = "block";
+          await videoRef.current.play().catch(() => undefined);
+          if (videoRef.current.videoWidth > 0) setCameraReady(true);
         }
-        setCameraError(false);
       } catch {
         setCameraError(true);
+        setCameraReady(false);
       }
     },
     [stopStream],
   );
 
   useEffect(() => {
-    if (step === 3) {
+    if (step === 2) {
       startCamera(booth.facingMode);
     }
     return () => {
-      if (step !== 3) stopStream();
+      if (step !== 2) stopStream();
     };
   }, [step, booth.facingMode, startCamera, stopStream]);
 
@@ -213,21 +163,37 @@ export default function Photobooth() {
   }
 
   function goStep(n: Step) {
-    if (n === 4) stampMeta();
+    if (n === 3) stampMeta();
     setStep(n);
+    trackEvent("photobooth_step_view", { step: n });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function grabFrame(): string | null {
+  async function waitForVideoReady() {
     const video = videoRef.current;
-    if (!video || !video.videoWidth) return null;
+    if (!video) return false;
+    if (video.videoWidth > 0 && video.videoHeight > 0) return true;
+    await new Promise<void>((resolve) => {
+      const timeout = window.setTimeout(resolve, 1200);
+      video.onloadedmetadata = () => {
+        window.clearTimeout(timeout);
+        resolve();
+      };
+    });
+    await video.play().catch(() => undefined);
+    return video.videoWidth > 0 && video.videoHeight > 0;
+  }
+
+  async function grabFrame(): Promise<string | null> {
+    const video = videoRef.current;
+    const ready = await waitForVideoReady();
+    if (!video || !ready) return null;
     const cv = document.createElement("canvas");
     cv.width = video.videoWidth;
     cv.height = video.videoHeight;
     const ctx = cv.getContext("2d");
     if (!ctx) return null;
-    ctx.filter = "grayscale(100%) contrast(1.05)";
-    ctx.drawImage(video, 0, 0);
+    ctx.drawImage(video, 0, 0, cv.width, cv.height);
     return cv.toDataURL("image/jpeg", 0.92);
   }
 
@@ -237,8 +203,9 @@ export default function Photobooth() {
   }
 
   async function onCapture() {
+    setCaptureError("");
     const photos = [...booth.photos];
-    const nextEmpty = photos.findIndex((p, i) => i < booth.layout && !p);
+    const nextEmpty = photos.findIndex((p, i) => i < photoCount && !p);
     if (nextEmpty === -1) return;
 
     if (booth.timer) {
@@ -259,10 +226,17 @@ export default function Photobooth() {
     }
 
     flashShutter();
-    const data = grabFrame();
+    const data = await grabFrame();
     if (data) {
       photos[nextEmpty] = data;
       setBooth((b) => ({ ...b, photos }));
+      trackEvent("capture_photo", {
+        template: booth.templateId,
+        frame: booth.frameStyleId,
+        slot: nextEmpty + 1,
+      });
+    } else {
+      setCaptureError("Camera belum siap. Tunggu preview muncul, lalu coba lagi.");
     }
   }
 
@@ -275,11 +249,12 @@ export default function Photobooth() {
   function flipCamera() {
     const newMode = booth.facingMode === "user" ? "environment" : "user";
     setBooth((b) => ({ ...b, facingMode: newMode }));
+    trackEvent("flip_camera", { facingMode: newMode });
     startCamera(newMode);
   }
 
   function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files || []).slice(0, booth.layout);
+    const files = Array.from(e.target.files || []).slice(0, photoCount);
     files.forEach((file) => {
       const fr = new FileReader();
       fr.onload = (ev) => {
@@ -290,13 +265,13 @@ export default function Photobooth() {
           cv.height = img.naturalHeight;
           const ctx = cv.getContext("2d");
           if (!ctx) return;
-          ctx.filter = "grayscale(100%) contrast(1.05)";
           ctx.drawImage(img, 0, 0);
           const data = cv.toDataURL("image/jpeg", 0.92);
           setBooth((b) => {
             const photos = [...b.photos];
-            const slot = photos.findIndex((p, i) => i < b.layout && !p);
+            const slot = photos.findIndex((p, i) => i < photoCount && !p);
             if (slot !== -1) photos[slot] = data;
+            trackEvent("upload_photo", { slot: slot + 1 });
             return { ...b, photos };
           });
         };
@@ -307,11 +282,10 @@ export default function Photobooth() {
   }
 
   async function downloadReceipt() {
+    setIsDownloading(true);
     try {
       const { default: html2canvas } = await import("html2canvas");
-      const el =
-        document.getElementById("finalReceipt") ||
-        document.getElementById("previewReceipt");
+      const el = document.getElementById("finalReceipt");
       if (!el) return;
       const canvas = await html2canvas(el, {
         scale: 2,
@@ -322,44 +296,79 @@ export default function Photobooth() {
       link.download = `thermemo_${booth.date.replace(/\./g, "")}_${booth.session}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
+      setDownloadReady(true);
+      trackEvent("download_receipt", {
+        template: booth.templateId,
+        frame: booth.frameStyleId,
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
+  async function shareReceipt() {
+    try {
+      const { default: html2canvas } = await import("html2canvas");
+      const el = document.getElementById("finalReceipt");
+      if (!el) return;
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+      });
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+        const file = new File([blob], "thermemo-receipt.png", {
+          type: "image/png",
+        });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: "thermemo receipt",
+            text: "proof that this moment happened. @thermemo.id #thermemo",
+          });
+          trackEvent("share_receipt");
+        } else {
+          await downloadReceipt();
+          trackEvent("share_fallback_download");
+        }
+      });
     } catch (e) {
       console.error(e);
     }
   }
 
+  async function copySocialTag() {
+    const tag = "@thermemo.id #thermemo";
+    await navigator.clipboard?.writeText(tag);
+    trackEvent("copy_instagram_tag");
+  }
+
   function resetBooth() {
     stopStream();
-    setBooth({
-      layout: 0,
-      frame: "",
-      photos: [],
-      caption: "",
-      showDate: true,
-      showNum: true,
-      square: false,
-      timer: false,
-      facingMode: "user",
-      date: "",
-      time: "",
-      session: "",
-    });
+    clearBoothState();
+    setBooth(INITIAL_STATE);
+    setDownloadReady(false);
     setStep(1);
   }
 
   const filledCount = booth.photos.filter(Boolean).length;
-  const allFilled = booth.layout > 0 && filledCount >= booth.layout;
-
-  const stepLabels = ["Layout", "Frame", "Capture", "Preview", "Download"];
+  const allFilled = photoCount > 0 && filledCount >= photoCount;
+  const stepLabels = ["Choose", "Capture", "Customize", "Download"];
 
   return (
     <div className="max-w-[1100px] mx-auto px-6 lg:px-10 pt-32 pb-20">
-      {/* step indicators */}
       <div className="flex items-center justify-center mb-12">
-        {([1, 2, 3, 4, 5] as Step[]).map((s, i) => (
+        {([1, 2, 3, 4] as Step[]).map((s, i) => (
           <div key={s} className="flex items-center">
             <div
               className="flex items-center gap-3 text-[10px] tracking-[0.22em] uppercase"
-              style={{ color: s === step ? "var(--foreground)" : "var(--muted-foreground)" }}
+              style={{
+                color:
+                  s === step ? "var(--foreground)" : "var(--muted-foreground)",
+              }}
             >
               <span
                 className="w-7 h-7 flex items-center justify-center text-[11px] rounded-full border transition-all duration-300"
@@ -383,7 +392,7 @@ export default function Photobooth() {
               </span>
               <span className="hidden md:inline">{stepLabels[i]}</span>
             </div>
-            {i < 4 && (
+            {i < 3 && (
               <span
                 className="w-7 md:w-14 h-px mx-1"
                 style={{ background: "var(--border)" }}
@@ -393,150 +402,121 @@ export default function Photobooth() {
         ))}
       </div>
 
-      {/* STEP 1 — Layout */}
       {step === 1 && (
         <div>
           <h2 className="font-display font-bold text-center mb-3 text-3xl lg:text-4xl">
-            Choose your strip layout
+            Pick your receipt layout
           </h2>
-          <p className="text-center text-sm text-muted-foreground mb-12 tracking-[0.05em]">
-            how many frames do you want on your receipt?
+          <p className="text-center text-sm text-muted-foreground mb-8 tracking-[0.05em]">
+            choose how many moments this receipt will keep
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            {LAYOUTS.map((L) => (
-              <button
-                key={L.id}
-                onClick={() => setBooth((b) => ({ ...b, layout: L.id }))}
-                className="bg-card text-center p-[18px] transition-all duration-200"
-                style={{
-                  border:
-                    booth.layout === L.id
-                      ? "1.5px solid #553125"
-                      : "1px solid var(--border)",
-                  borderRadius: "2px",
-                }}
+
+          <TabbedLayoutPicker
+            selected={booth.templateId}
+            onSelect={(t) => {
+              setBooth((b) => ({
+                ...b,
+                templateId: t.id,
+                photos: Array(t.photoCount).fill(null),
+              }));
+              trackEvent("select_template", { template: t.id, photos: t.photoCount });
+            }}
+          />
+
+          {booth.templateId && (
+            <div className="mt-10">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-semibold mb-4">
+                receipt style
+              </p>
+              <div
+                className="flex gap-3 overflow-x-auto pb-4"
+                style={{ scrollSnapType: "x mandatory" }}
               >
-                <div
-                  className="flex flex-col gap-[6px] p-[10px] mb-[14px]"
-                  style={{
-                    background: "var(--muted)",
-                    border: "1px dashed var(--muted-foreground)",
-                    aspectRatio: "3/4",
-                  }}
-                >
-                  {Array.from({ length: L.id }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 min-h-0"
-                      style={{ background: "var(--border)" }}
-                    />
-                  ))}
-                </div>
-                <div className="text-[11px] tracking-[0.2em] uppercase font-semibold">
-                  {L.label}
-                </div>
-                <div className="text-[10px] text-muted-foreground mt-1">{L.hint}</div>
-              </button>
-            ))}
-          </div>
+                {FRAME_STYLES.map((F) => {
+                  const isDark =
+                    F.cls === "dark" || F.cls === "ghost";
+                  const fgStyle: React.CSSProperties = isDark
+                    ? {
+                        background: "#111",
+                        color: "rgba(220,216,209,0.5)",
+                        border: "1px solid #111",
+                      }
+                    : F.cls === "paper"
+                      ? { background: "#EFEADF", border: "1px solid #DCD8D1" }
+                      : F.cls === "archive"
+                        ? { background: "#e8e3d8", border: "1px solid #DCD8D1" }
+                        : F.cls === "cedar"
+                          ? { border: "1.5px solid #553125" }
+                          : { border: "1px solid var(--border)" };
+                  return (
+                    <button
+                      key={F.id}
+                      onClick={() => {
+                        setBooth((b) => ({ ...b, frameStyleId: F.id }));
+                        trackEvent("select_frame", { frame: F.id });
+                      }}
+                      className="flex-shrink-0 w-[140px] p-1 transition-all duration-200"
+                      style={{
+                        border:
+                          booth.frameStyleId === F.id
+                            ? "1.5px solid #553125"
+                            : "1.5px solid transparent",
+                        scrollSnapAlign: "start",
+                        borderRadius: 2,
+                      }}
+                    >
+                      <div
+                        className="flex flex-col gap-[4px] p-[10px] relative text-[7px] tracking-[0.2em] uppercase"
+                        style={{ ...fgStyle, aspectRatio: "3/4" }}
+                      >
+                        <div className="flex justify-between">
+                          <span>thermemo</span>
+                          <span>·</span>
+                        </div>
+                        <div
+                          className="flex-1"
+                          style={{
+                            background: isDark
+                              ? "#2a2622"
+                              : "var(--muted-foreground)",
+                          }}
+                        />
+                        <div className="flex justify-between">
+                          <span>NO.0042</span>
+                          <span>記</span>
+                        </div>
+                      </div>
+                      <div className="pt-2 pb-1 px-1 text-[10px] font-bold tracking-[0.15em] uppercase">
+                        {F.name}
+                      </div>
+                      <div className="pb-1.5 px-1 text-[8px] text-muted-foreground tracking-[0.1em]">
+                        {F.sub}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <div className="flex justify-end mt-12 pt-6 border-t border-border">
-            <Button onClick={() => goStep(2)} disabled={!booth.layout}>
-              Next →
+            <Button
+              onClick={() => goStep(2)}
+              disabled={!booth.templateId || !booth.frameStyleId}
+            >
+              Open camera →
             </Button>
           </div>
         </div>
       )}
 
-      {/* STEP 2 — Frame */}
       {step === 2 && (
         <div>
           <h2 className="font-display font-bold text-center mb-3 text-3xl lg:text-4xl">
-            Choose your frame
+            Take your photo{photoCount > 1 ? "s" : ""}
           </h2>
-          <p className="text-center text-sm text-muted-foreground mb-12 tracking-[0.05em]">
-            a design language for your memento
-          </p>
-          <div
-            className="flex gap-4 overflow-x-auto pb-8 pt-3"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {FRAMES.map((F) => {
-              const fgStyle: React.CSSProperties =
-                F.cls === "dark" || F.cls === "ghost"
-                  ? {
-                      background: "#111",
-                      color: "rgba(220,216,209,0.5)",
-                      border: "1px solid #111",
-                    }
-                  : F.cls === "paper"
-                    ? { background: "#EFEADF", border: "1px solid #DCD8D1" }
-                    : F.cls === "archive"
-                      ? { background: "#e8e3d8", border: "1px solid #DCD8D1" }
-                      : F.cls === "cedar"
-                        ? { border: "1.5px solid #553125" }
-                        : { border: "1px solid var(--border)" };
-              return (
-                <button
-                  key={F.id}
-                  onClick={() => setBooth((b) => ({ ...b, frame: F.id }))}
-                  className="flex-shrink-0 w-[180px] p-1 transition-all duration-200"
-                  style={{
-                    border:
-                      booth.frame === F.id
-                        ? "1.5px solid #553125"
-                        : "1.5px solid transparent",
-                    scrollSnapAlign: "start",
-                  }}
-                >
-                  <div
-                    className="flex flex-col gap-[6px] p-[14px] relative text-[8px] tracking-[0.2em] uppercase"
-                    style={{ ...fgStyle, aspectRatio: "3/4" }}
-                  >
-                    <div className="flex justify-between text-[7px]">
-                      <span>thermemo</span>
-                      <span>·</span>
-                    </div>
-                    <div
-                      className="flex-1"
-                      style={{
-                        background:
-                          F.cls === "dark" ? "#2a2622" : "var(--muted-foreground)",
-                      }}
-                    />
-                    <div className="flex justify-between text-[7px]">
-                      <span>NO.0042</span>
-                      <span>記</span>
-                    </div>
-                  </div>
-                  <div className="pt-[10px] pb-[6px] px-1 text-[11px] font-bold tracking-[0.15em] uppercase">
-                    {F.name}
-                  </div>
-                  <div className="pb-2 px-1 text-[9px] text-muted-foreground tracking-[0.1em]">
-                    {F.sub}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-          <div className="flex justify-between mt-12 pt-6 border-t border-border">
-            <Button variant="outline" onClick={() => goStep(1)}>
-              ← Back
-            </Button>
-            <Button onClick={() => goStep(3)} disabled={!booth.frame}>
-              Next →
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 3 — Camera */}
-      {step === 3 && (
-        <div>
-          <h2 className="font-display font-bold text-center mb-3 text-3xl lg:text-4xl">
-            Take your photo{booth.layout > 1 ? "s" : ""}
-          </h2>
-          <p className="text-center text-sm text-muted-foreground mb-12 tracking-[0.05em]">
-            {booth.layout} shot{booth.layout > 1 ? "s" : ""} required
+          <p className="text-center text-sm text-muted-foreground mb-10 tracking-[0.05em]">
+            {filledCount} / {photoCount} frames captured · your camera stays local
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-10">
@@ -550,13 +530,33 @@ export default function Photobooth() {
                   autoPlay
                   playsInline
                   muted
+                  onLoadedMetadata={() => setCameraReady(true)}
+                  onCanPlay={() => setCameraReady(true)}
                   className="w-full h-full object-cover"
-                  style={{ filter: "grayscale(100%) contrast(1.05)" }}
+                  style={{ filter: filterCss }}
                 />
+                {!cameraReady && !cameraError && (
+                  <div className="absolute inset-0 bg-[#111] flex flex-col items-center justify-center gap-4 p-6 text-center text-[12px] tracking-[0.2em] text-muted-foreground">
+                    <span
+                      style={{
+                        fontFamily: "var(--font-jp)",
+                        fontSize: "24px",
+                        color: "#9a7c6e",
+                      }}
+                    >
+                      記
+                    </span>
+                    <span>Starting camera...</span>
+                  </div>
+                )}
                 {cameraError && (
                   <div className="absolute inset-0 bg-[#111] flex flex-col items-center justify-center gap-4 p-6 text-center text-[12px] tracking-[0.2em] text-muted-foreground">
                     <span
-                      style={{ fontFamily: "var(--font-jp)", fontSize: "24px", color: "#9a7c6e" }}
+                      style={{
+                        fontFamily: "var(--font-jp)",
+                        fontSize: "24px",
+                        color: "#9a7c6e",
+                      }}
                     >
                       記
                     </span>
@@ -572,10 +572,18 @@ export default function Photobooth() {
                       bottom: c.includes("b") ? "10px" : undefined,
                       left: c.includes("l") ? "10px" : undefined,
                       right: c.includes("r") ? "10px" : undefined,
-                      borderTop: c.includes("t") ? "1px solid rgba(220,216,209,0.7)" : "none",
-                      borderBottom: c.includes("b") ? "1px solid rgba(220,216,209,0.7)" : "none",
-                      borderLeft: c.includes("l") ? "1px solid rgba(220,216,209,0.7)" : "none",
-                      borderRight: c.includes("r") ? "1px solid rgba(220,216,209,0.7)" : "none",
+                      borderTop: c.includes("t")
+                        ? "1px solid rgba(220,216,209,0.7)"
+                        : "none",
+                      borderBottom: c.includes("b")
+                        ? "1px solid rgba(220,216,209,0.7)"
+                        : "none",
+                      borderLeft: c.includes("l")
+                        ? "1px solid rgba(220,216,209,0.7)"
+                        : "none",
+                      borderRight: c.includes("r")
+                        ? "1px solid rgba(220,216,209,0.7)"
+                        : "none",
                     }}
                   />
                 ))}
@@ -599,11 +607,14 @@ export default function Photobooth() {
               </div>
 
               <div className="flex gap-[10px] mt-4 flex-wrap">
-                <Button onClick={onCapture} disabled={allFilled}>
-                  ▢ Take photo
+                <Button
+                  onClick={onCapture}
+                  disabled={allFilled || !cameraReady || cameraError}
+                >
+                  <Camera className="size-4" /> Take photo
                 </Button>
                 <Button variant="outline" onClick={flipCamera}>
-                  ⟲ Flip
+                  <RotateCcw className="size-4" /> Flip
                 </Button>
                 <Button
                   variant="outline"
@@ -614,16 +625,34 @@ export default function Photobooth() {
                       : {}
                   }
                 >
-                  ◷ 3s timer
+                  <Timer className="size-4" /> 3s timer
                 </Button>
+                <label className="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-4 py-2 text-sm font-medium shadow-xs transition-all hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                  <Upload className="size-4" /> Upload
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={onUpload}
+                  />
+                </label>
               </div>
+
+              {captureError && (
+                <p className="mt-3 text-sm leading-6 text-primary">
+                  {captureError}
+                </p>
+              )}
 
               {cameraError && (
                 <div className="mt-4 p-5 border border-primary bg-card text-sm leading-[1.7]">
-                  <strong className="block mb-[6px]">Camera permission needed</strong>
+                  <strong className="block mb-[6px]">
+                    Camera permission needed
+                  </strong>
                   <span>
-                    untuk pakai camera, izinkan akses di pengaturan browser. atau
-                    upload foto kamu langsung:
+                    izinkan akses kamera di pengaturan browser, atau upload foto
+                    kamu langsung:
                   </span>
                   <label className="inline-block mt-3 px-4 py-[10px] border border-primary text-[10px] tracking-[0.22em] uppercase text-primary font-semibold cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
                     Upload photos
@@ -637,6 +666,17 @@ export default function Photobooth() {
                   </label>
                 </div>
               )}
+
+              <div className="mt-6">
+                <FilterSelector
+                  selected={booth.filterId}
+                  onSelect={(id) => {
+                    setBooth((b) => ({ ...b, filterId: id }));
+                    trackEvent("select_filter", { filter: id });
+                  }}
+                  previewImage={booth.photos.find(Boolean) ?? null}
+                />
+              </div>
             </div>
 
             <div>
@@ -644,7 +684,7 @@ export default function Photobooth() {
                 your strip
               </div>
               <div className="flex flex-col gap-[10px]">
-                {Array.from({ length: booth.layout }).map((_, i) => {
+                {Array.from({ length: photoCount }).map((_, i) => {
                   const p = booth.photos[i];
                   return p ? (
                     <div
@@ -656,7 +696,8 @@ export default function Photobooth() {
                       <img
                         src={p}
                         alt={`slot ${i + 1}`}
-                        className="w-full h-full object-cover grayscale"
+                        className="w-full h-full object-cover"
+                        style={{ filter: filterCss }}
                       />
                       <button
                         onClick={() => retakePhoto(i)}
@@ -685,146 +726,181 @@ export default function Photobooth() {
               variant="outline"
               onClick={() => {
                 stopStream();
-                goStep(2);
+                goStep(1);
               }}
             >
               ← Back
             </Button>
-            <Button onClick={() => goStep(4)} disabled={!allFilled}>
-              Next →
+            <Button onClick={() => goStep(3)} disabled={!allFilled}>
+              Customize →
             </Button>
           </div>
         </div>
       )}
 
-      {/* STEP 4 — Preview */}
-      {step === 4 && (
+      {step === 3 && (
         <div>
           <h2 className="font-display font-bold text-center mb-3 text-3xl lg:text-4xl">
-            Preview your receipt
+            Customize your receipt
           </h2>
-          <p className="text-center text-sm text-muted-foreground mb-12 tracking-[0.05em]">
-            customize before printing
+          <p className="text-center text-sm text-muted-foreground mb-10 tracking-[0.05em]">
+            add stamps, write a caption, make it yours
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
             <div className="flex justify-center">
-              <div ref={previewRef}>
-                <ReceiptPreview id="previewReceipt" state={booth} />
+              <div className="relative">
+                <ReceiptRenderer
+                  id="previewReceipt"
+                  template={template}
+                  frameStyle={frameStyle}
+                  photos={booth.photos}
+                  filterCss={filterCss}
+                  stamps={booth.stamps}
+                  caption={booth.caption}
+                  showDate={booth.showDate}
+                  showNum={booth.showNum}
+                  square={booth.square}
+                  date={booth.date}
+                  time={booth.time}
+                  session={booth.session}
+                  width={RECEIPT_WIDTH}
+                />
               </div>
             </div>
 
-            <Card>
-              <CardContent className="flex flex-col gap-7 p-6">
-                {/* caption */}
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-semibold mb-2">
-                    Caption · max 24 chars
-                  </label>
-                  <input
-                    type="text"
-                    maxLength={24}
-                    placeholder="a small moment."
-                    value={booth.caption}
-                    onChange={(e) =>
-                      setBooth((b) => ({ ...b, caption: e.target.value }))
-                    }
-                    className="w-full pb-[10px] text-[14px] bg-transparent transition-colors duration-200 outline-none"
-                    style={{ borderBottom: "1px solid var(--border)" }}
-                  />
-                </div>
-
-                {/* toggles */}
-                {[
-                  {
-                    key: "showDate" as const,
-                    label: "Date display",
-                    text: "Show date on receipt",
-                  },
-                  {
-                    key: "showNum" as const,
-                    label: "Receipt number",
-                    text: "Show session number",
-                  },
-                  {
-                    key: "square" as const,
-                    label: "Strip orientation",
-                    text: "Square crop (default vertical)",
-                  },
-                ].map((t) => (
-                  <div key={t.key}>
+            <div className="space-y-6">
+              <Card>
+                <CardContent className="flex flex-col gap-6 p-6">
+                  <div>
                     <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-semibold mb-2">
-                      {t.label}
+                      Caption · max 24 chars
                     </label>
-                    <button
-                      className="flex items-center gap-3 text-[13px]"
-                      onClick={() =>
-                        setBooth((b) => ({ ...b, [t.key]: !b[t.key] }))
+                    <input
+                      type="text"
+                      maxLength={24}
+                      placeholder="a small moment."
+                      value={booth.caption}
+                      onChange={(e) =>
+                        setBooth((b) => ({ ...b, caption: e.target.value }))
                       }
-                    >
-                      <span
-                        className="w-9 h-5 relative cursor-pointer transition-colors duration-300"
-                        style={{
-                          borderRadius: "10px",
-                          border: `1px solid ${booth[t.key] ? "#553125" : "var(--muted-foreground)"}`,
-                          background: booth[t.key] ? "#553125" : "transparent",
-                        }}
+                      className="w-full pb-[10px] text-[14px] bg-transparent transition-colors duration-200 outline-none"
+                      style={{ borderBottom: "1px solid var(--border)" }}
+                    />
+                  </div>
+
+                  {[
+                    {
+                      key: "showDate" as const,
+                      label: "Date display",
+                      text: "Show date on receipt",
+                    },
+                    {
+                      key: "showNum" as const,
+                      label: "Receipt number",
+                      text: "Show session number",
+                    },
+                    {
+                      key: "square" as const,
+                      label: "Strip orientation",
+                      text: "Square crop (default vertical)",
+                    },
+                  ].map((t) => (
+                    <div key={t.key}>
+                      <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-semibold mb-2">
+                        {t.label}
+                      </label>
+                      <button
+                        className="flex items-center gap-3 text-[13px]"
+                        onClick={() =>
+                          setBooth((b) => ({ ...b, [t.key]: !b[t.key] }))
+                        }
                       >
                         <span
-                          className="absolute top-[2px] w-[14px] h-[14px] rounded-full transition-all duration-300"
+                          className="w-9 h-5 relative cursor-pointer transition-colors duration-300"
                           style={{
-                            left: booth[t.key] ? "18px" : "2px",
-                            background: booth[t.key] ? "#fff" : "var(--muted-foreground)",
+                            borderRadius: "10px",
+                            border: `1px solid ${booth[t.key] ? "#553125" : "var(--muted-foreground)"}`,
+                            background: booth[t.key]
+                              ? "#553125"
+                              : "transparent",
                           }}
-                        />
-                      </span>
-                      <span>{t.text}</span>
-                    </button>
-                  </div>
-                ))}
-
-                {/* meta */}
-                <div
-                  className="pt-4 mt-4"
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
-                    letterSpacing: "0.1em",
-                    color: "var(--muted-foreground)",
-                    borderTop: "1px dashed var(--border)",
-                  }}
-                >
-                  {[
-                    ["DATE", booth.date || "—"],
-                    ["TIME", booth.time || "—"],
-                    [
-                      "SESSION",
-                      booth.session
-                        ? `MEM-${booth.date.replace(/\./g, "")}-${booth.session}`
-                        : "—",
-                    ],
-                  ].map(([label, value]) => (
-                    <div key={label} className="flex justify-between py-1">
-                      <span>{label}</span>
-                      <span>{value}</span>
+                        >
+                          <span
+                            className="absolute top-[2px] w-[14px] h-[14px] rounded-full transition-all duration-300"
+                            style={{
+                              left: booth[t.key] ? "18px" : "2px",
+                              background: booth[t.key]
+                                ? "#fff"
+                                : "var(--muted-foreground)",
+                            }}
+                          />
+                        </span>
+                        <span>{t.text}</span>
+                      </button>
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
+
+                  <div
+                    className="pt-4 mt-2"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "11px",
+                      letterSpacing: "0.1em",
+                      color: "var(--muted-foreground)",
+                      borderTop: "1px dashed var(--border)",
+                    }}
+                  >
+                    {[
+                      ["DATE", booth.date || "—"],
+                      ["TIME", booth.time || "—"],
+                      [
+                        "SESSION",
+                        booth.session
+                          ? `MEM-${booth.date.replace(/\./g, "")}-${booth.session}`
+                          : "—",
+                      ],
+                    ].map(([label, value]) => (
+                      <div key={label} className="flex justify-between py-1">
+                        <span>{label}</span>
+                        <span>{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <StampLayer
+                    stamps={booth.stamps}
+                    onChange={(stamps) => setBooth((b) => ({ ...b, stamps }))}
+                    receiptWidth={RECEIPT_WIDTH}
+                  />
+                </CardContent>
+              </Card>
+
+              <FilterSelector
+                selected={booth.filterId}
+                onSelect={(id) => {
+                  setBooth((b) => ({ ...b, filterId: id }));
+                  trackEvent("select_filter", { filter: id });
+                }}
+                previewImage={booth.photos.find(Boolean) ?? null}
+              />
+            </div>
           </div>
 
           <div className="flex justify-between mt-12 pt-6 border-t border-border">
-            <Button variant="outline" onClick={() => goStep(3)}>
+            <Button variant="outline" onClick={() => goStep(2)}>
               ← Back
             </Button>
-            <Button onClick={() => goStep(5)}>Continue →</Button>
+            <Button onClick={() => goStep(4)}>Download & share →</Button>
           </div>
         </div>
       )}
 
-      {/* STEP 5 — Download */}
-      {step === 5 && (
+      {step === 4 && (
         <div className="text-center">
           <h2 className="font-display font-bold text-center mb-3 text-3xl lg:text-4xl">
             Your receipt is ready.
@@ -837,36 +913,75 @@ export default function Photobooth() {
           </p>
 
           <div className="flex justify-center mb-8">
-            <ReceiptPreview id="finalReceipt" state={booth} />
+            <ReceiptRenderer
+              id="finalReceipt"
+              template={template}
+              frameStyle={frameStyle}
+              photos={booth.photos}
+              filterCss={filterCss}
+              stamps={booth.stamps}
+              caption={booth.caption}
+              showDate={booth.showDate}
+              showNum={booth.showNum}
+              square={booth.square}
+              date={booth.date}
+              time={booth.time}
+              session={booth.session}
+              width={RECEIPT_WIDTH}
+            />
           </div>
 
           <div className="flex gap-3 justify-center flex-wrap mt-6">
-            <Button onClick={downloadReceipt}>⬇ Download receipt</Button>
+            <Button onClick={downloadReceipt} disabled={isDownloading}>
+              <Download className="size-4" /> {isDownloading ? "Generating..." : "Download receipt"}
+            </Button>
+            <Button variant="outline" onClick={shareReceipt}>
+              <Share2 className="size-4" /> Share
+            </Button>
+            <Button variant="outline" onClick={copySocialTag}>
+              <Copy className="size-4" /> Copy tag
+            </Button>
             <Button
               variant="outline"
               onClick={async () => {
                 await downloadReceipt();
-                alert(
-                  "struk tersimpan. open instagram → stories → upload from camera roll.",
+                trackEvent("open_instagram");
+                window.open(
+                  "https://instagram.com/thermemo.id",
+                  "_blank",
+                  "noopener,noreferrer",
                 );
               }}
             >
-              Share to instagram
+              <Instagram className="size-4" /> Open Instagram
             </Button>
-            <button
-              onClick={resetBooth}
-              className="px-0 py-[10px] text-[11px] tracking-[0.2em] uppercase hover:text-primary transition-colors duration-200"
-            >
-              Take another
-            </button>
           </div>
+
+          {downloadReady && (
+            <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-muted-foreground">
+              receipt downloaded. tag{" "}
+              <span className="font-semibold text-foreground">
+                @thermemo.id #thermemo
+              </span>{" "}
+              to get featured on our community wall.
+            </p>
+          )}
+
+          <button
+            onClick={resetBooth}
+            className="mt-6 px-0 py-[10px] text-[11px] tracking-[0.2em] uppercase hover:text-primary transition-colors duration-200"
+          >
+            <RefreshCcw className="mr-1 inline size-3" /> Take another
+          </button>
 
           <Card className="max-w-[480px] mx-auto mt-14 border-primary">
             <CardContent className="p-7 text-center">
-              <h4 className="font-bold text-[16px] mb-3">Want a physical print?</h4>
+              <h4 className="font-bold text-[16px] mb-3">
+                Want a physical print?
+              </h4>
               <p className="text-[13px] leading-[1.85] text-muted-foreground mb-5">
-                digital is nice. paper is real. book a booth and bring it home in
-                your wallet.
+                digital is nice. paper is real. book a booth and bring it home
+                in your wallet.
               </p>
               <Button asChild>
                 <Link href="/booking">Book now →</Link>
@@ -885,7 +1000,7 @@ export default function Photobooth() {
           </Card>
 
           <div className="flex justify-start mt-12 pt-6 border-t border-border">
-            <Button variant="outline" onClick={() => goStep(4)}>
+            <Button variant="outline" onClick={() => goStep(3)}>
               ← Back
             </Button>
           </div>

@@ -1,13 +1,5 @@
 import { cn } from "@/lib/utils";
-
-const toneGradients: Record<string, string> = {
-  g1: 'linear-gradient(160deg, #b0aba2, #3b3631)',
-  g2: 'linear-gradient(200deg, #d4cfc6, #2a2622)',
-  g3: 'linear-gradient(135deg, #9b9690, #545049)',
-  g4: 'linear-gradient(180deg, #cac4ba, #6a625a)',
-  g5: 'linear-gradient(220deg, #88847e, #1a1816)',
-  g6: 'linear-gradient(160deg, #d8d3ca, #4a443e)',
-};
+import { getToneGradient } from "@/lib/data";
 
 type Props = {
   date: string;
@@ -39,7 +31,7 @@ export function ReceiptCard({ date, num, cap, side, tone, className, onClick }: 
       </div>
       <div
         className="my-3 aspect-[3/4] grayscale relative overflow-hidden"
-        style={{ background: toneGradients[tone] ?? toneGradients.g1 }}
+        style={{ background: getToneGradient(tone) }}
       />
       <p
         className="text-center text-sm py-1 italic"

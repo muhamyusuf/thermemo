@@ -3,7 +3,7 @@ import { DashedLine } from "@/components/dashed-line";
 const stats = [
   { value: "90s", label: "Waktu per sesi" },
   { value: "58mm", label: "Lebar receipt" },
-  { value: "6", label: "Frame designs" },
+  { value: "12", label: "Frame templates" },
   { value: "記ノ片", label: "ki no kata" },
 ];
 

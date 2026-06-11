@@ -22,7 +22,6 @@ export default function GalleryPage() {
     <Background>
       <section className="py-28 lg:pt-44 lg:pb-32">
         <div className="container">
-          {/* header */}
           <div className="text-center mb-12">
             <p className="text-muted-foreground font-mono text-sm tracking-[0.3em] uppercase mb-3">
               archive · 記ノ片
@@ -38,7 +37,18 @@ export default function GalleryPage() {
             </p>
           </div>
 
-          {/* filter bar */}
+          <div className="max-w-2xl mx-auto mb-12 p-5 border bg-card text-center" style={{ borderRadius: 2 }}>
+            <p className="text-sm text-muted-foreground leading-6">
+              gallery ini menampilkan sample receipt dari sesi-sesi thermemo.
+              foto asli dari customer kami akan segera ditampilkan di sini.
+              sementara itu, coba{" "}
+              <a href="/photobooth" className="text-primary font-semibold underline-offset-4 hover:underline">
+                photobooth online
+              </a>{" "}
+              untuk melihat bagaimana struk kamu akan terlihat.
+            </p>
+          </div>
+
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
             {FILTERS.map((f) => (
               <Button
@@ -52,7 +62,6 @@ export default function GalleryPage() {
             ))}
           </div>
 
-          {/* grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-8 justify-items-center">
             {filtered.map((r) => (
               <ReceiptCard

@@ -14,13 +14,10 @@ import { cn } from "@/lib/utils";
 
 const ITEMS = [
   { label: "Home", href: "/" },
-  { label: "Gallery", href: "/gallery" },
   { label: "Photobooth", href: "/photobooth" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Pricing", href: "/pricing" },
-  { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export const Navbar = () => {
@@ -70,7 +67,7 @@ export const Navbar = () => {
         <div className="flex items-center gap-2.5">
           <Link href="/booking" className="max-lg:hidden">
             <Button size="sm">
-              Book now →
+              Book now
             </Button>
           </Link>
 
