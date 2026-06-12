@@ -285,28 +285,53 @@ export default function Photobooth() {
     });
   }
 
+  function getReceiptFilename() {
+    return `thermemo_${booth.date.replace(/\./g, "")}_${booth.session}.png`;
+  }
+
+  async function renderReceiptCanvas(): Promise<HTMLCanvasElement | null> {
+    const { drawReceiptToCanvas } = await import("@/lib/draw-receipt");
+    return drawReceiptToCanvas({
+      template,
+      frameStyle,
+      photos: booth.photos,
+      stamps: booth.stamps,
+      caption: booth.caption,
+      showDate: booth.showDate,
+      showNum: booth.showNum,
+      date: booth.date,
+      time: booth.time,
+      session: booth.session,
+    });
+  }
+
   async function downloadReceipt() {
     setIsDownloading(true);
     try {
-      const { default: html2canvas } = await import("html2canvas");
-      const el = document.getElementById("finalReceipt");
-      if (!el) return;
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null,
-      });
-      const link = document.createElement("a");
-      link.download = `thermemo_${booth.date.replace(/\./g, "")}_${booth.session}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
+      const canvas = await renderReceiptCanvas();
+      if (!canvas) return;
+
+      const { downloadCanvas } = await import("@/lib/draw-receipt");
+      downloadCanvas(canvas, getReceiptFilename());
+
       setDownloadReady(true);
       trackEvent("download_receipt", {
         template: booth.templateId,
         frame: booth.frameStyleId,
       });
     } catch (e) {
-      console.error(e);
+      console.error("Download failed:", e);
+      try {
+        const { default: html2canvas } = await import("html2canvas");
+        const el = document.getElementById("finalReceipt");
+        if (!el) return;
+        const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: null, allowTaint: true });
+        const { downloadCanvas } = await import("@/lib/draw-receipt");
+        downloadCanvas(canvas, getReceiptFilename());
+        setDownloadReady(true);
+      } catch (e2) {
+        console.error("Fallback download also failed:", e2);
+      }
     } finally {
       setIsDownloading(false);
     }
@@ -314,14 +339,9 @@ export default function Photobooth() {
 
   async function shareReceipt() {
     try {
-      const { default: html2canvas } = await import("html2canvas");
-      const el = document.getElementById("finalReceipt");
-      if (!el) return;
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null,
-      });
+      const canvas = await renderReceiptCanvas();
+      if (!canvas) return;
+
       canvas.toBlob(async (blob) => {
         if (!blob) return;
         const file = new File([blob], "thermemo-receipt.png", {
@@ -338,9 +358,10 @@ export default function Photobooth() {
           await downloadReceipt();
           trackEvent("share_fallback_download");
         }
-      });
+      }, "image/png");
     } catch (e) {
-      console.error(e);
+      console.error("Share failed:", e);
+      await downloadReceipt();
     }
   }
 
