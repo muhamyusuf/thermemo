@@ -134,10 +134,14 @@ export default function Photobooth() {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           videoRef.current.style.display = "block";
-          await videoRef.current.play().catch(() => undefined);
-          if (videoRef.current.videoWidth > 0) setCameraReady(true);
+          
+          videoRef.current.onloadedmetadata = () => {
+            videoRef.current?.play().catch(() => undefined);
+            setCameraReady(true);
+          };
         }
-      } catch {
+      } catch (err) {
+        console.error("Camera error:", err);
         setCameraError(true);
         setCameraReady(false);
       }
@@ -515,147 +519,126 @@ export default function Photobooth() {
           <h2 className="font-display font-bold text-center mb-3 text-3xl lg:text-4xl">
             Take your photo{photoCount > 1 ? "s" : ""}
           </h2>
-          <p className="text-center text-sm text-muted-foreground mb-10 tracking-[0.05em]">
-            {filledCount} / {photoCount} frames captured · your camera stays local
+          <p className="text-center text-sm text-muted-foreground mb-8 tracking-[0.05em]">
+            {filledCount} / {photoCount} frames captured
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-10">
-            <div>
-              <div
-                className="relative overflow-hidden border border-border"
-                style={{ aspectRatio: "3/4", background: "#111111" }}
-              >
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  onLoadedMetadata={() => setCameraReady(true)}
-                  onCanPlay={() => setCameraReady(true)}
-                  className="w-full h-full object-cover"
-                  style={{ filter: filterCss }}
-                />
-                {!cameraReady && !cameraError && (
-                  <div className="absolute inset-0 bg-[#111] flex flex-col items-center justify-center gap-4 p-6 text-center text-[12px] tracking-[0.2em] text-muted-foreground">
-                    <span
-                      style={{
-                        fontFamily: "var(--font-jp)",
-                        fontSize: "24px",
-                        color: "#9a7c6e",
-                      }}
-                    >
-                      記
-                    </span>
-                    <span>Starting camera...</span>
-                  </div>
-                )}
-                {cameraError && (
-                  <div className="absolute inset-0 bg-[#111] flex flex-col items-center justify-center gap-4 p-6 text-center text-[12px] tracking-[0.2em] text-muted-foreground">
-                    <span
-                      style={{
-                        fontFamily: "var(--font-jp)",
-                        fontSize: "24px",
-                        color: "#9a7c6e",
-                      }}
-                    >
-                      記
-                    </span>
-                    <span>Camera not active</span>
-                  </div>
-                )}
-                {["tl", "tr", "bl", "br"].map((c) => (
-                  <div
-                    key={c}
-                    className="absolute w-[18px] h-[18px] z-10"
-                    style={{
-                      top: c.includes("t") ? "10px" : undefined,
-                      bottom: c.includes("b") ? "10px" : undefined,
-                      left: c.includes("l") ? "10px" : undefined,
-                      right: c.includes("r") ? "10px" : undefined,
-                      borderTop: c.includes("t")
-                        ? "1px solid rgba(220,216,209,0.7)"
-                        : "none",
-                      borderBottom: c.includes("b")
-                        ? "1px solid rgba(220,216,209,0.7)"
-                        : "none",
-                      borderLeft: c.includes("l")
-                        ? "1px solid rgba(220,216,209,0.7)"
-                        : "none",
-                      borderRight: c.includes("r")
-                        ? "1px solid rgba(220,216,209,0.7)"
-                        : "none",
-                    }}
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
+              <div className="space-y-4">
+                <div
+                  className="relative overflow-hidden border-2 border-border bg-[#111]"
+                  style={{ aspectRatio: "4/3" }}
+                >
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="w-full h-full object-contain"
+                    style={{ filter: filterCss }}
                   />
-                ))}
-                {countdown !== null && (
-                  <div
-                    className="absolute inset-0 flex items-center justify-center z-20 font-bold"
-                    style={{
-                      background: "rgba(0,0,0,0.45)",
-                      fontSize: "144px",
-                      color: "#fff",
-                      fontFamily: "var(--font-display)",
-                      lineHeight: "1",
-                    }}
+                  {!cameraReady && !cameraError && (
+                    <div className="absolute inset-0 bg-[#111] flex flex-col items-center justify-center gap-4 p-6 text-center">
+                      <span
+                        className="text-3xl"
+                        style={{
+                          fontFamily: "var(--font-jp)",
+                          color: "#9a7c6e",
+                        }}
+                      >
+                        記
+                      </span>
+                      <span className="text-[12px] tracking-[0.2em] text-[#9a958d] uppercase">
+                        Starting camera...
+                      </span>
+                    </div>
+                  )}
+                  {cameraError && (
+                    <div className="absolute inset-0 bg-[#111] flex flex-col items-center justify-center gap-4 p-6 text-center">
+                      <span
+                        className="text-3xl"
+                        style={{
+                          fontFamily: "var(--font-jp)",
+                          color: "#9a7c6e",
+                        }}
+                      >
+                        記
+                      </span>
+                      <span className="text-[12px] tracking-[0.2em] text-[#9a958d] uppercase">
+                        Camera not active
+                      </span>
+                    </div>
+                  )}
+                  {["tl", "tr", "bl", "br"].map((c) => (
+                    <div
+                      key={c}
+                      className="absolute w-6 h-6 z-10 pointer-events-none"
+                      style={{
+                        top: c.includes("t") ? "12px" : undefined,
+                        bottom: c.includes("b") ? "12px" : undefined,
+                        left: c.includes("l") ? "12px" : undefined,
+                        right: c.includes("r") ? "12px" : undefined,
+                        borderTop: c.includes("t")
+                          ? "2px solid rgba(247,244,238,0.6)"
+                          : "none",
+                        borderBottom: c.includes("b")
+                          ? "2px solid rgba(247,244,238,0.6)"
+                          : "none",
+                        borderLeft: c.includes("l")
+                          ? "2px solid rgba(247,244,238,0.6)"
+                          : "none",
+                        borderRight: c.includes("r")
+                          ? "2px solid rgba(247,244,238,0.6)"
+                          : "none",
+                      }}
+                    />
+                  ))}
+                  {countdown !== null && (
+                    <div
+                      className="absolute inset-0 flex items-center justify-center z-20 font-bold"
+                      style={{
+                        background: "rgba(0,0,0,0.5)",
+                        fontSize: "120px",
+                        color: "#fff",
+                        fontFamily: "var(--font-display)",
+                        lineHeight: "1",
+                      }}
+                    >
+                      {countdown}
+                    </div>
+                  )}
+                  {flashing && (
+                    <div className="absolute inset-0 bg-white z-30 opacity-80 animate-pulse" />
+                  )}
+                </div>
+
+                <div className="flex gap-2 flex-wrap justify-center">
+                  <Button
+                    onClick={onCapture}
+                    disabled={allFilled || !cameraReady || cameraError}
+                    size="lg"
+                    className="min-w-[140px]"
                   >
-                    {countdown}
-                  </div>
-                )}
-                {flashing && (
-                  <div className="absolute inset-0 bg-white z-30 opacity-80" />
-                )}
-              </div>
-
-              <div className="flex gap-[10px] mt-4 flex-wrap">
-                <Button
-                  onClick={onCapture}
-                  disabled={allFilled || !cameraReady || cameraError}
-                >
-                  <Camera className="size-4" /> Take photo
-                </Button>
-                <Button variant="outline" onClick={flipCamera}>
-                  <RotateCcw className="size-4" /> Flip
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setBooth((b) => ({ ...b, timer: !b.timer }))}
-                  style={
-                    booth.timer
-                      ? { borderColor: "#553125", color: "#553125" }
-                      : {}
-                  }
-                >
-                  <Timer className="size-4" /> 3s timer
-                </Button>
-                <label className="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-4 py-2 text-sm font-medium shadow-xs transition-all hover:bg-accent hover:text-accent-foreground cursor-pointer">
-                  <Upload className="size-4" /> Upload
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="hidden"
-                    onChange={onUpload}
-                  />
-                </label>
-              </div>
-
-              {captureError && (
-                <p className="mt-3 text-sm leading-6 text-primary">
-                  {captureError}
-                </p>
-              )}
-
-              {cameraError && (
-                <div className="mt-4 p-5 border border-primary bg-card text-sm leading-[1.7]">
-                  <strong className="block mb-[6px]">
-                    Camera permission needed
-                  </strong>
-                  <span>
-                    izinkan akses kamera di pengaturan browser, atau upload foto
-                    kamu langsung:
-                  </span>
-                  <label className="inline-block mt-3 px-4 py-[10px] border border-primary text-[10px] tracking-[0.22em] uppercase text-primary font-semibold cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
-                    Upload photos
+                    <Camera className="size-4" /> Take photo
+                  </Button>
+                  <Button variant="outline" onClick={flipCamera} size="lg">
+                    <RotateCcw className="size-4" /> Flip
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setBooth((b) => ({ ...b, timer: !b.timer }))}
+                    size="lg"
+                    style={
+                      booth.timer
+                        ? { borderColor: "#553125", color: "#553125" }
+                        : {}
+                    }
+                  >
+                    <Timer className="size-4" /> 3s
+                  </Button>
+                  <label className="inline-flex h-10 items-center justify-center gap-2 rounded-md border bg-background px-4 py-2 text-sm font-medium shadow-xs transition-all hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                    <Upload className="size-4" /> Upload
                     <input
                       type="file"
                       accept="image/*"
@@ -665,63 +648,87 @@ export default function Photobooth() {
                     />
                   </label>
                 </div>
-              )}
 
-              <div className="mt-6">
-                <FilterSelector
-                  selected={booth.filterId}
-                  onSelect={(id) => {
-                    setBooth((b) => ({ ...b, filterId: id }));
-                    trackEvent("select_filter", { filter: id });
-                  }}
-                  previewImage={booth.photos.find(Boolean) ?? null}
-                />
+                {captureError && (
+                  <p className="text-sm text-center text-destructive">
+                    {captureError}
+                  </p>
+                )}
+
+                {cameraError && (
+                  <div className="p-5 border border-destructive bg-card text-sm">
+                    <strong className="block mb-2">Camera permission needed</strong>
+                    <p className="text-muted-foreground mb-3">
+                      Izinkan akses kamera di pengaturan browser, atau upload foto langsung.
+                    </p>
+                    <label className="inline-block px-4 py-2 border border-primary text-[10px] tracking-[0.22em] uppercase text-primary font-semibold cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
+                      Upload photos
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={onUpload}
+                      />
+                    </label>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-[10px] tracking-[0.3em] uppercase font-medium text-muted-foreground">
+                  Your strip
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
+                  {Array.from({ length: photoCount }).map((_, i) => {
+                    const p = booth.photos[i];
+                    return p ? (
+                      <div
+                        key={i}
+                        className="relative overflow-hidden border border-border"
+                        style={{ aspectRatio: "3/4" }}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={p}
+                          alt={`slot ${i + 1}`}
+                          className="w-full h-full object-cover"
+                          style={{ filter: filterCss }}
+                        />
+                        <button
+                          onClick={() => retakePhoto(i)}
+                          className="absolute top-1 right-1 w-6 h-6 flex items-center justify-center text-sm text-white rounded-full bg-black/70 hover:bg-black/90 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        key={i}
+                        className="flex items-center justify-center border-2 border-dashed border-muted-foreground/40 text-[11px] tracking-[0.22em] text-muted-foreground"
+                        style={{ aspectRatio: "3/4", background: "var(--muted)" }}
+                      >
+                        slot 0{i + 1}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            <div>
-              <div className="text-[10px] tracking-[0.3em] uppercase font-medium text-muted-foreground mb-4">
-                your strip
-              </div>
-              <div className="flex flex-col gap-[10px]">
-                {Array.from({ length: photoCount }).map((_, i) => {
-                  const p = booth.photos[i];
-                  return p ? (
-                    <div
-                      key={i}
-                      className="relative overflow-hidden border border-border"
-                      style={{ aspectRatio: "3/4" }}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={p}
-                        alt={`slot ${i + 1}`}
-                        className="w-full h-full object-cover"
-                        style={{ filter: filterCss }}
-                      />
-                      <button
-                        onClick={() => retakePhoto(i)}
-                        className="absolute top-[6px] right-[6px] w-[22px] h-[22px] flex items-center justify-center text-[12px] text-white rounded-full"
-                        style={{ background: "rgba(17,17,17,0.7)" }}
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ) : (
-                    <div
-                      key={i}
-                      className="flex items-center justify-center border border-dashed border-muted-foreground text-[11px] tracking-[0.22em] text-muted-foreground"
-                      style={{ aspectRatio: "3/4", background: "var(--muted)" }}
-                    >
-                      slot 0{i + 1}
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="mt-6">
+              <FilterSelector
+                selected={booth.filterId}
+                onSelect={(id) => {
+                  setBooth((b) => ({ ...b, filterId: id }));
+                  trackEvent("select_filter", { filter: id });
+                }}
+                previewImage={booth.photos.find(Boolean) ?? null}
+              />
             </div>
           </div>
 
-          <div className="flex justify-between mt-12 pt-6 border-t border-border">
+          <div className="flex justify-between mt-12 pt-6 border-t border-border max-w-4xl mx-auto">
             <Button
               variant="outline"
               onClick={() => {
